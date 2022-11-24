@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'models/book.dart';
+
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -26,13 +28,55 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const MyHomePage(),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
+  final List<Book> bookList = [
+    Book(
+      id: 1,
+      title: 'IT',
+      authorId: 2,
+      author: 'Stephen King',
+      editor: 'Mondadori',
+      editorId: 2,
+      price: 33.25,
+      isbn: '',
+      scaffale: 2,
+      note: '',
+      dataAggiunta: DateTime.now(),
+    ),
+    Book(
+      id: 2,
+      title: 'Sahara',
+      authorId: 2,
+      author: 'Clive Cussler',
+      editor: 'Mondadori',
+      editorId: 2,
+      price: 23.05,
+      isbn: '',
+      scaffale: 2,
+      note: '',
+      dataAggiunta: DateTime.now(),
+    ),
+    Book(
+      id: 3,
+      title: 'Mars',
+      authorId: 2,
+      author: 'Weir',
+      editor: 'Mondadori',
+      editorId: 2,
+      price: 90.25,
+      isbn: '',
+      scaffale: 2,
+      note: '',
+      dataAggiunta: DateTime.now(),
+    ),
+  ];
+
+  MyHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,24 +85,16 @@ class MyHomePage extends StatelessWidget {
         title: const Text('MP Book'),
         backgroundColor: Colors.amber,
       ),
-      body: Column(
-        children: <Widget>[
-          const Center(
-            child: Text('Let\'s build a shop!'),
-          ),
-          TextButton(
-            onPressed: () {},
-            child: const Text('Salva'),
-          ),
-          ElevatedButton(
-            onPressed: () {},
-            child: const Text('Salva'),
-          ),
-          OutlinedButton(
-            onPressed: () {},
-            child: const Text('Salva'),
-          ),
-        ],
+      body: GridView.builder(
+        padding: const EdgeInsets.all(10.0),
+        itemCount: bookList.length,
+        itemBuilder: (ctx, i) => Container(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 3 / 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+        ),
       ),
     );
   }
