@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'models/book.dart';
+import 'widgets/book_item.dart';
 
 void main() => runApp(const MyApp());
 
@@ -74,6 +75,19 @@ class MyHomePage extends StatelessWidget {
       note: '',
       dataAggiunta: DateTime.now(),
     ),
+    Book(
+      id: 3,
+      title: 'Libro 4',
+      authorId: 5,
+      author: 'Stephen King',
+      editor: 'Mondadori',
+      editorId: 2,
+      price: 33.25,
+      isbn: '',
+      scaffale: 2,
+      note: '',
+      dataAggiunta: DateTime.now(),
+    ),
   ];
 
   MyHomePage({super.key});
@@ -88,7 +102,11 @@ class MyHomePage extends StatelessWidget {
       body: GridView.builder(
         padding: const EdgeInsets.all(10.0),
         itemCount: bookList.length,
-        itemBuilder: (ctx, i) => Container(),
+        itemBuilder: (ctx, i) => BookItem(
+          title: bookList[i].title,
+          author: bookList[i].author,
+          price: bookList[i].price,
+        ),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           childAspectRatio: 3 / 2,
