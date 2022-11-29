@@ -14,23 +14,44 @@ class BookItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridTile(
-      footer: GridTileBar(
-        backgroundColor: Colors.green,
-        leading: Text('€ $price'),
-        trailing: IconButton(
-          icon: const Icon(Icons.update),
-          onPressed: () {},
+    return Column(
+      children: [
+        ListTile(
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              color: Theme.of(context).primaryColor,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          leading: CircleAvatar(
+            radius: 20,
+            backgroundColor: Theme.of(context).primaryColor,
+            child: Padding(
+              padding: const EdgeInsets.all(6),
+              child: FittedBox(
+                child: Text('€ $price'),
+              ),
+            ),
+          ),
+          title: Text(title!),
+          subtitle: Text(author!),
+          trailing: MediaQuery.of(context).size.width > 460
+              ? OutlinedButton.icon(
+                  icon: const Icon(Icons.delete),
+                  label: const Text('Cancella'),
+                  onPressed: () => {},
+                )
+              : IconButton(
+                  icon: const Icon(Icons.delete),
+                  color: Theme.of(context).errorColor,
+                  onPressed: () => {},
+                ),
         ),
-        title: Text(
-          author!,
-          textAlign: TextAlign.center,
+        const SizedBox(
+          height: 5,
         ),
-      ),
-      child: Text(
-        title!,
-        textAlign: TextAlign.center,
-      ),
+      ],
     );
   }
 }

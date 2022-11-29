@@ -99,19 +99,13 @@ class MyHomePage extends StatelessWidget {
         title: const Text('MP Book'),
         backgroundColor: Colors.amber,
       ),
-      body: GridView.builder(
+      body: ListView.builder(
         padding: const EdgeInsets.all(10.0),
         itemCount: bookList.length,
         itemBuilder: (ctx, i) => BookItem(
           title: bookList[i].title,
           author: bookList[i].author,
           price: bookList[i].price,
-        ),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 3 / 2,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
         ),
       ),
     );
