@@ -1,3 +1,4 @@
+import 'dart:core';
 import 'package:flutter/material.dart';
 
 import 'models/book.dart';
@@ -29,12 +30,21 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: MyHomePage(),
+      home: const MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  TextEditingController searchController = TextEditingController();
+
   final List<Book> bookList = [
     Book(
       id: 1,
@@ -89,8 +99,35 @@ class MyHomePage extends StatelessWidget {
       dataAggiunta: DateTime.now(),
     ),
   ];
+  List<Book> copyList = <Book>[];
 
-  MyHomePage({super.key});
+  @override
+  void initState() {
+    copyList.addAll(bookList);
+    super.initState();
+  }
+
+  void cercaLibro(String query) {
+    if (query.isNotEmpty) {
+      List<Book> searchList = <Book>[];
+      for (Book book in bookList) {
+        if (book.title!.toLowerCase().contains(query.toLowerCase()) ||
+            book.author!.toLowerCase().contains(query.toLowerCase())) {
+          searchList.add(book);
+        }
+      }
+      setState(() {
+        copyList.clear();
+        copyList.addAll(searchList);
+      });
+      return;
+    } else {
+      setState(() {
+        copyList.clear();
+        copyList.addAll(bookList);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,14 +136,39 @@ class MyHomePage extends StatelessWidget {
         title: const Text('MP Book'),
         backgroundColor: Colors.amber,
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(10.0),
-        itemCount: bookList.length,
-        itemBuilder: (ctx, i) => BookItem(
-          title: bookList[i].title,
-          author: bookList[i].author,
-          price: bookList[i].price,
-        ),
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              onChanged: (value) {
+                cercaLibro(value);
+              },
+              controller: searchController,
+              decoration: const InputDecoration(
+                labelText: "Cerca...",
+                hintText: "Cerca...",
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(10.0),
+              itemCount: copyList.length,
+              itemBuilder: (ctx, i) => BookItem(
+                title: copyList[i].title,
+                author: copyList[i].author,
+                price: copyList[i].price,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
