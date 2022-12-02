@@ -26,15 +26,21 @@ class BookItem extends StatelessWidget {
           ),
           leading: CircleAvatar(
             radius: 20,
-            backgroundColor: Theme.of(context).primaryColor,
+            // backgroundColor: Colors.purple,
             child: Padding(
               padding: const EdgeInsets.all(6),
               child: FittedBox(
-                child: Text('€ $price'),
+                child: Text(
+                  '€ $price',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
               ),
             ),
           ),
-          title: Text(title!),
+          title: Text(
+            title!,
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
           subtitle: Text(author!),
           trailing: MediaQuery.of(context).size.width > 460
               ? OutlinedButton.icon(

@@ -15,13 +15,12 @@ class MyApp extends StatelessWidget {
       title: 'MP Book',
       theme: ThemeData(
         fontFamily: 'Raleway',
-        brightness: Brightness.dark,
-        primaryColor: Colors.amber,
+        // brightness: Brightness.dark,
         primarySwatch: Colors.amber,
         textTheme: const TextTheme(
           // headline1: TextStyle(fontWeight: FontWeight.bold),
           headline6: TextStyle(fontWeight: FontWeight.bold),
-          bodyText1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+          bodyText1: TextStyle(fontSize: 14.0, fontFamily: 'Hind',color: Colors.black),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -43,9 +42,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  TextEditingController searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
-  final List<Book> bookList = [
+  final List<Book> _bookList = [
     Book(
       id: 1,
       title: 'IT',
@@ -99,32 +98,32 @@ class _MyHomePageState extends State<MyHomePage> {
       dataAggiunta: DateTime.now(),
     ),
   ];
-  List<Book> copyList = <Book>[];
+  final List<Book> _copyList = <Book>[];
 
   @override
   void initState() {
-    copyList.addAll(bookList);
+    _copyList.addAll(_bookList);
     super.initState();
   }
 
   void cercaLibro(String query) {
     if (query.isNotEmpty) {
       List<Book> searchList = <Book>[];
-      for (Book book in bookList) {
+      for (Book book in _bookList) {
         if (book.title!.toLowerCase().contains(query.toLowerCase()) ||
             book.author!.toLowerCase().contains(query.toLowerCase())) {
           searchList.add(book);
         }
       }
       setState(() {
-        copyList.clear();
-        copyList.addAll(searchList);
+        _copyList.clear();
+        _copyList.addAll(searchList);
       });
       return;
     } else {
       setState(() {
-        copyList.clear();
-        copyList.addAll(bookList);
+        _copyList.clear();
+        _copyList.addAll(_bookList);
       });
     }
   }
@@ -134,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('MP Book'),
-        backgroundColor: Colors.amber,
+        // backgroundColor: Colors.amber,
       ),
       body: Column(
         children: <Widget>[
@@ -144,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onChanged: (value) {
                 cercaLibro(value);
               },
-              controller: searchController,
+              controller: _searchController,
               decoration: const InputDecoration(
                 labelText: "Cerca...",
                 hintText: "Cerca...",
@@ -158,13 +157,28 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(10.0),
-              itemCount: copyList.length,
-              itemBuilder: (ctx, i) => BookItem(
-                title: copyList[i].title,
-                author: copyList[i].author,
-                price: copyList[i].price,
+            child: RefreshIndicator(
+              displacement: 150,
+              backgroundColor: Colors.black38,
+              strokeWidth: 3,
+              triggerMode: RefreshIndicatorTriggerMode.onEdge,
+              onRefresh: () async {
+                _searchController.text = '';
+                await Future.delayed(const Duration(milliseconds: 1500));
+                setState(() {
+                  _copyList.clear();
+                  _copyList.addAll(_bookList);
+                });
+              },
+              child: ListView.builder(
+                padding: const EdgeInsets.all(10.0),
+                itemCount: _copyList.length,
+                physics: const AlwaysScrollableScrollPhysics(),
+                itemBuilder: (ctx, i) => BookItem(
+                  title: _copyList[i].title,
+                  author: _copyList[i].author,
+                  price: _copyList[i].price,
+                ),
               ),
             ),
           ),
