@@ -38,9 +38,13 @@ class MainMenu extends StatelessWidget {
           const SizedBox(
             height: 1,
           ),
-          buildListTile('Autori', Icons.person, () {
-            Navigator.of(context).pushNamed(AuthorsScreen.routeName);
-          }),
+          buildListTile(
+            'Autori',
+            Icons.person,
+            () {
+              Navigator.of(context).pushNamed(AuthorsScreen.routeName);
+            },
+          ),
         ],
       ),
     );
