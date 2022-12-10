@@ -2,7 +2,6 @@ import 'package:book_flutter/widgets/main_menu_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/book.dart';
 import '../providers/products_provider.dart';
 import '../widgets/book_item_widget.dart';
 
@@ -15,42 +14,30 @@ class BooksScreen extends StatefulWidget {
 
 class _BooksScreenState extends State<BooksScreen> {
   final TextEditingController _searchController = TextEditingController();
-
-  // final List<Book> _copyList = <Book>[];
+  late String _searchText;
 
   @override
   void initState() {
-    // _copyList.addAll(_bookList);
+    _searchController.addListener(
+      () {
+        setState(() {
+          _searchText = _searchController.text;
+        });
+      },
+    );
     super.initState();
   }
 
-  void cercaLibro(String query) {
-    // if (query.isNotEmpty) {
-    //   List<Book> searchList = <Book>[];
-    //   for (Book book in _bookList) {
-    //     if (book.title!.toLowerCase().contains(query.toLowerCase()) ||
-    //         book.author!.toLowerCase().contains(query.toLowerCase())) {
-    //       searchList.add(book);
-    //     }
-    //   }
-    //   setState(() {
-    //     _copyList.clear();
-    //     _copyList.addAll(searchList);
-    //   });
-    //   return;
-    // } else {
-    //   setState(() {
-    //     _copyList.clear();
-    //     _copyList.addAll(_bookList);
-    //   });
-    // }
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final booksData = Provider.of<BooksProvider>(context);
-    final _bookList = booksData.items;
-    final _copyList = booksData.items;
+    final bookList = booksData.items;
 
     return Scaffold(
       appBar: AppBar(
@@ -63,7 +50,8 @@ class _BooksScreenState extends State<BooksScreen> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               onChanged: (value) {
-                cercaLibro(value);
+                Provider.of<BooksProvider>(context, listen: false)
+                    .onSearchString(value);
               },
               controller: _searchController,
               decoration: const InputDecoration(
@@ -87,19 +75,15 @@ class _BooksScreenState extends State<BooksScreen> {
               onRefresh: () async {
                 _searchController.text = '';
                 await Future.delayed(const Duration(milliseconds: 1500));
-                setState(() {
-                  _copyList.clear();
-                  _copyList.addAll(_bookList);
-                });
               },
               child: ListView.builder(
                 padding: const EdgeInsets.all(10.0),
-                itemCount: _copyList.length,
+                itemCount: bookList.length,
                 physics: const AlwaysScrollableScrollPhysics(),
                 itemBuilder: (ctx, i) => BookItem(
-                  title: _copyList[i].title,
-                  author: _copyList[i].author,
-                  price: _copyList[i].price,
+                  title: bookList[i].title,
+                  author: bookList[i].author,
+                  price: bookList[i].price,
                 ),
               ),
             ),

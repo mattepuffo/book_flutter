@@ -24,4 +24,5 @@ class Book {
     this.scaffale,
     this.dataAggiunta,
   });
+
 }

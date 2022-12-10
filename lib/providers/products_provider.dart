@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/book.dart';
 
 class BooksProvider with ChangeNotifier {
+  String _searchString = "";
   final List<Book> _items = [
     Book(
       id: 1,
@@ -58,8 +59,15 @@ class BooksProvider with ChangeNotifier {
     ),
   ];
 
-  List<Book> get items {
-    return [..._items];
+  List<Book> get items => _searchString.isEmpty
+      ? List.from(_items)
+      : List.from(_items.where((el) =>
+          el.title!.toLowerCase().contains(_searchString.toLowerCase()) ||
+          el.author!.toLowerCase().contains(_searchString.toLowerCase())));
+
+  void onSearchString(String value) {
+    _searchString = value;
+    notifyListeners();
   }
 
   void add() {
