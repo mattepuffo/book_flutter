@@ -65,11 +65,15 @@ class BooksProvider with ChangeNotifier {
           el.title!.toLowerCase().contains(_searchString.toLowerCase()) ||
           el.author!.toLowerCase().contains(_searchString.toLowerCase())));
 
-  void onSearchString(String value) {
+  void cerca(String value) {
     _searchString = value;
     notifyListeners();
   }
 
+  Book getById(int id) {
+    return _items.firstWhere((book) => book.id == id);
+  }
+  
   void add() {
     // _items.add(value);
     notifyListeners();

@@ -1,4 +1,6 @@
-class Book {
+import 'package:flutter/foundation.dart';
+
+class Book with ChangeNotifier {
   final int? id;
   final String? title;
   final int? authorId;
@@ -24,5 +26,4 @@ class Book {
     this.scaffale,
     this.dataAggiunta,
   });
-
 }

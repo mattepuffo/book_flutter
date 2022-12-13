@@ -1,9 +1,11 @@
 import 'dart:core';
-import 'package:book_flutter/providers/products_provider.dart';
+import 'package:book_flutter/providers/books_provider.dart';
 import 'package:book_flutter/screens/authors_screen.dart';
 import 'package:book_flutter/screens/books_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'screens/book_screen.dart';
 
 void main() => runApp(const MyApp());
 
@@ -12,8 +14,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => BooksProvider(),
+    return ChangeNotifierProvider.value(
+      value: BooksProvider(),
       child: MaterialApp(
         title: 'MP Book',
         theme: ThemeData(
@@ -38,6 +40,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (ctx) => const BooksScreen(),
           AuthorsScreen.routeName: (ctx) => const AuthorsScreen(),
+          BookScreen.routeName: (ctx) => const BookScreen()
         },
         onUnknownRoute: (settings) {
           return MaterialPageRoute(

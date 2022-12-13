@@ -1,19 +1,16 @@
+import 'package:book_flutter/models/book.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../screens/book_screen.dart';
 
 class BookItem extends StatelessWidget {
-  final String? title;
-  final String? author;
-  final double? price;
-
-  const BookItem({
-    super.key,
-    this.title,
-    this.author,
-    this.price,
-  });
+  const BookItem({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final book = Provider.of<Book>(context, listen: false);
+
     return Column(
       children: [
         ListTile(
@@ -26,33 +23,41 @@ class BookItem extends StatelessWidget {
           ),
           leading: CircleAvatar(
             radius: 20,
-            // backgroundColor: Colors.purple,
             child: Padding(
               padding: const EdgeInsets.all(6),
               child: FittedBox(
                 child: Text(
-                  '€ $price',
+                  '€ ${book.price}',
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
               ),
             ),
           ),
           title: Text(
-            title!,
+            (book.title ?? ""),
             style: Theme.of(context).textTheme.bodyText1,
           ),
-          subtitle: Text(author!),
-          trailing: MediaQuery.of(context).size.width > 460
-              ? OutlinedButton.icon(
-                  icon: const Icon(Icons.delete),
-                  label: const Text('Cancella'),
-                  onPressed: () => {},
-                )
-              : IconButton(
-                  icon: const Icon(Icons.delete),
-                  color: Theme.of(context).errorColor,
-                  onPressed: () => {},
-                ),
+          subtitle: Text(book.author ?? ""),
+          trailing: Wrap(
+            spacing: 10,
+            children: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.remove_red_eye),
+                color: Colors.purple,
+                onPressed: () => {
+                  Navigator.of(context).pushNamed(
+                    BookScreen.routeName,
+                    arguments: book.id,
+                  )
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.delete),
+                color: Theme.of(context).errorColor,
+                onPressed: () => {},
+              ),
+            ],
+          ),
         ),
         const SizedBox(
           height: 5,

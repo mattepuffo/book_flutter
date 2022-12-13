@@ -2,7 +2,7 @@ import 'package:book_flutter/widgets/main_menu_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/products_provider.dart';
+import '../providers/books_provider.dart';
 import '../widgets/book_item_widget.dart';
 
 class BooksScreen extends StatefulWidget {
@@ -13,18 +13,10 @@ class BooksScreen extends StatefulWidget {
 }
 
 class _BooksScreenState extends State<BooksScreen> {
-  final TextEditingController _searchController = TextEditingController();
-  late String _searchText;
+  final _searchController = TextEditingController();
 
   @override
   void initState() {
-    _searchController.addListener(
-      () {
-        setState(() {
-          _searchText = _searchController.text;
-        });
-      },
-    );
     super.initState();
   }
 
@@ -50,8 +42,7 @@ class _BooksScreenState extends State<BooksScreen> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               onChanged: (value) {
-                Provider.of<BooksProvider>(context, listen: false)
-                    .onSearchString(value);
+                Provider.of<BooksProvider>(context, listen: false).cerca(value);
               },
               controller: _searchController,
               decoration: const InputDecoration(
@@ -80,10 +71,9 @@ class _BooksScreenState extends State<BooksScreen> {
                 padding: const EdgeInsets.all(10.0),
                 itemCount: bookList.length,
                 physics: const AlwaysScrollableScrollPhysics(),
-                itemBuilder: (ctx, i) => BookItem(
-                  title: bookList[i].title,
-                  author: bookList[i].author,
-                  price: bookList[i].price,
+                itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+                  value: bookList[i],
+                  child: const BookItem(),
                 ),
               ),
             ),
