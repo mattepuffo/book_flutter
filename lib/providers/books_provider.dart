@@ -4,6 +4,8 @@ import '../models/book.dart';
 
 class BooksProvider with ChangeNotifier {
   String _searchString = "";
+  int _scaffaleScelto = 0;
+
   final List<Book> _items = [
     Book(
       id: 1,
@@ -53,14 +55,14 @@ class BooksProvider with ChangeNotifier {
       editorId: 2,
       price: 33.25,
       isbn: '',
-      scaffale: 2,
+      scaffale: 1,
       note: '',
       dataAggiunta: DateTime.now(),
     ),
   ];
 
   List<Book> get items => _searchString.isEmpty
-      ? List.from(_items)
+      ? getAll()
       : List.from(_items.where((el) =>
           el.title!.toLowerCase().contains(_searchString.toLowerCase()) ||
           el.author!.toLowerCase().contains(_searchString.toLowerCase())));
@@ -70,10 +72,22 @@ class BooksProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  List<Book> getAll() {
+    if (_scaffaleScelto > 0) {
+      return List.from(_items.where((el) => el.scaffale == _scaffaleScelto));
+    }
+    return List.from(_items);
+  }
+
+  void setScaffale(int scaffale) {
+    _scaffaleScelto = scaffale;
+    notifyListeners();
+  }
+
   Book getById(int id) {
     return _items.firstWhere((book) => book.id == id);
   }
-  
+
   void add() {
     // _items.add(value);
     notifyListeners();

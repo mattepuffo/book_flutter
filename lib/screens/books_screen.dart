@@ -5,6 +5,13 @@ import 'package:provider/provider.dart';
 import '../providers/books_provider.dart';
 import '../widgets/book_item_widget.dart';
 
+enum Scaffale {
+  Zero,
+  Uno,
+  Due,
+  Tre,
+}
+
 class BooksScreen extends StatefulWidget {
   const BooksScreen({super.key});
 
@@ -34,6 +41,34 @@ class _BooksScreenState extends State<BooksScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('MP Book'),
+        actions: <Widget>[
+          PopupMenuButton(
+            onSelected: (Scaffale selectedValue) {
+              booksData.setScaffale(selectedValue.index);
+            },
+            icon: const Icon(
+              Icons.more_vert_outlined,
+            ),
+            itemBuilder: (_) => [
+              const PopupMenuItem(
+                value: Scaffale.Zero,
+                child: Text('Tutti'),
+              ),
+              const PopupMenuItem(
+                value: Scaffale.Uno,
+                child: Text('Scaffale uno'),
+              ),
+              const PopupMenuItem(
+                value: Scaffale.Due,
+                child: Text('Scaffale due'),
+              ),
+              const PopupMenuItem(
+                value: Scaffale.Tre,
+                child: Text('Scaffale tre'),
+              ),
+            ],
+          ),
+        ],
       ),
       drawer: const MainMenu(),
       body: Column(

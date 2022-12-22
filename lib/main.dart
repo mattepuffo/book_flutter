@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider.value(
       value: BooksProvider(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'MP Book',
         theme: ThemeData(
           fontFamily: 'Raleway',
