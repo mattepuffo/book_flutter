@@ -1,11 +1,12 @@
 import 'dart:core';
-import 'package:book_flutter/providers/books_provider.dart';
-import 'package:book_flutter/screens/authors_screen.dart';
-import 'package:book_flutter/screens/books_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'screens/book_screen.dart';
+import './providers/authors_provider.dart';
+import './providers/books_provider.dart';
+import './screens/authors_screen.dart';
+import './screens/books_screen.dart';
+import './screens/book_screen.dart';
 
 void main() => runApp(const MyApp());
 
@@ -14,8 +15,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: BooksProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => BooksProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AuthorsProvider(),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'MP Book',
