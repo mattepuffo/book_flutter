@@ -11,58 +11,82 @@ class BookItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final book = Provider.of<Book>(context, listen: false);
 
-    return Column(
-      children: [
-        ListTile(
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-              color: Theme.of(context).primaryColor,
-              width: 1,
+    return Dismissible(
+      key: UniqueKey(),
+      background: Container(
+        color: Colors.redAccent,
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.only(right: 6),
+        child: const Icon(
+          Icons.delete,
+          color: Colors.white,
+          size: 40,
+        ),
+      ),
+      // direction: DismissDirection.endToStart,
+      onDismissed: (direction) {
+        if (direction == DismissDirection.endToStart) {
+          print('CANCELLA');
+          print(book.id);
+        }
+
+        if (direction == DismissDirection.startToEnd) {
+          print('ALTRA AZIONE');
+        }
+      },
+      child: Column(
+        children: [
+          ListTile(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                color: Theme.of(context).primaryColor,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(5),
             ),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          leading: CircleAvatar(
-            radius: 20,
-            child: Padding(
-              padding: const EdgeInsets.all(6),
-              child: FittedBox(
-                child: Text(
-                  '€ ${book.price}',
-                  style: Theme.of(context).textTheme.bodyText1,
+            leading: CircleAvatar(
+              radius: 20,
+              child: Padding(
+                padding: const EdgeInsets.all(6),
+                child: FittedBox(
+                  child: Text(
+                    '€ ${book.price}',
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
                 ),
               ),
             ),
+            title: Text(
+              (book.title ?? ""),
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+            subtitle: Text(book.author ?? ""),
+            trailing: Wrap(
+              spacing: 10,
+              children: <Widget>[
+                IconButton(
+                  icon: const Icon(Icons.remove_red_eye),
+                  color: Colors.purple,
+                  onPressed: () => {
+                    Navigator.of(context).pushNamed(
+                      BookScreen.routeName,
+                      arguments: book.id,
+                    )
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.delete),
+                  color: Theme.of(context).errorColor,
+                  onPressed: () => {},
+                ),
+              ],
+            ),
           ),
-          title: Text(
-            (book.title ?? ""),
-            style: Theme.of(context).textTheme.bodyText1,
+          const SizedBox(
+            height: 5,
           ),
-          subtitle: Text(book.author ?? ""),
-          trailing: Wrap(
-            spacing: 10,
-            children: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.remove_red_eye),
-                color: Colors.purple,
-                onPressed: () => {
-                  Navigator.of(context).pushNamed(
-                    BookScreen.routeName,
-                    arguments: book.id,
-                  )
-                },
-              ),
-              IconButton(
-                icon: const Icon(Icons.delete),
-                color: Theme.of(context).errorColor,
-                onPressed: () => {},
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
