@@ -1,5 +1,7 @@
 import 'package:book_flutter/screens/authors_screen.dart';
+import 'package:book_flutter/screens/books_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 class MainMenu extends StatelessWidget {
   const MainMenu({super.key});
@@ -22,27 +24,46 @@ class MainMenu extends StatelessWidget {
     return Drawer(
       child: Column(
         children: <Widget>[
-          Container(
-            height: 120,
-            width: double.infinity,
-            padding: const EdgeInsets.all(10),
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Menu!',
-              style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 20,
-                  color: Theme.of(context).primaryColor),
-            ),
+          AppBar(
+            title: const Text('Menu'),
+            automaticallyImplyLeading: false,
           ),
-          const SizedBox(
-            height: 1,
+          buildListTile(
+            'Libri',
+            Icons.book,
+            () {
+              // Navigator.of(context).pushReplacementNamed('/');
+              Navigator.pushReplacement(
+                context,
+                PageTransition(
+                  type: PageTransitionType.leftToRight,
+                  child: const BooksScreen(),
+                ),
+              );
+            },
           ),
+          const Divider(),
           buildListTile(
             'Autori',
             Icons.person,
             () {
-              Navigator.of(context).pushNamed(AuthorsScreen.routeName);
+              // Navigator.of(context).pushReplacementNamed(AuthorsScreen.routeName);
+              Navigator.pushReplacement(
+                context,
+                PageTransition(
+                  type: PageTransitionType.leftToRight,
+                  child: const AuthorsScreen(),
+                ),
+              );
+            },
+          ),
+          const Divider(),
+          buildListTile(
+            'Editori',
+            Icons.person,
+            () {
+              Navigator.of(context)
+                  .pushReplacementNamed(AuthorsScreen.routeName);
             },
           ),
         ],
