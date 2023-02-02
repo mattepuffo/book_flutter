@@ -2,6 +2,7 @@ import 'package:book_flutter/models/book.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/books_provider.dart';
 import '../screens/book_screen.dart';
 
 class BookItem extends StatelessWidget {
@@ -10,6 +11,52 @@ class BookItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final book = Provider.of<Book>(context, listen: false);
+
+    void _showSnackBar() {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            "CANCELLATO!",
+          ),
+          duration: const Duration(seconds: 5),
+          action: SnackBarAction(
+            label: "Annulla",
+            onPressed: () {
+              print("ANNULLATO");
+            },
+          ),
+        ),
+      );
+    }
+
+    void _del() {
+      Provider.of<BooksProvider>(context, listen: false).del(book);
+      _showSnackBar();
+    }
+
+    Widget _confDialog() {
+      return AlertDialog(
+        title: const Text('ATTENZIONE?'),
+        content: const Text(
+          'Sicuro di voler cancellare il libro?',
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('No'),
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+          ),
+          TextButton(
+            child: const Text('Yes'),
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+          ),
+        ],
+      );
+    }
 
     return Dismissible(
       key: UniqueKey(),
@@ -23,11 +70,12 @@ class BookItem extends StatelessWidget {
           size: 40,
         ),
       ),
-      // direction: DismissDirection.endToStart,
+      confirmDismiss: (direction) {
+        return showDialog(context: context, builder: (ctx) => _confDialog());
+      },
       onDismissed: (direction) {
         if (direction == DismissDirection.endToStart) {
-          print('CANCELLA');
-          print(book.id);
+          _del();
         }
 
         if (direction == DismissDirection.startToEnd) {
@@ -77,7 +125,19 @@ class BookItem extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.delete),
                   color: Theme.of(context).errorColor,
-                  onPressed: () => {},
+                  onPressed: () => {
+                    showDialog(
+                      context: context,
+                      builder: (ctx) => _confDialog(),
+                    ).then(
+                      (value) => {
+                        if (value)
+                          {
+                            _del(),
+                          },
+                      },
+                    ),
+                  },
                 ),
               ],
             ),

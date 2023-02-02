@@ -92,4 +92,11 @@ class BooksProvider with ChangeNotifier {
     // _items.add(value);
     notifyListeners();
   }
+
+  void del(Book book) {
+    if (_items.contains(book)) {
+      _items.remove(book);
+      notifyListeners();
+    }
+  }
 }
