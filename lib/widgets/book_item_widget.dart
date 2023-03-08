@@ -85,13 +85,13 @@ class BookItem extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
-            shape: RoundedRectangleBorder(
-              side: BorderSide(
-                color: Theme.of(context).primaryColor,
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(5),
-            ),
+            // shape: RoundedRectangleBorder(
+            //   side: BorderSide(
+            //     color: Theme.of(context).primaryColor,
+            //     width: 1,
+            //   ),
+            //   borderRadius: BorderRadius.circular(5),
+            // ),
             leading: CircleAvatar(
               radius: 20,
               child: Padding(

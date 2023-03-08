@@ -106,9 +106,14 @@ class _BooksScreenState extends State<BooksScreen> {
                 padding: const EdgeInsets.all(10.0),
                 itemCount: bookList.length,
                 physics: const AlwaysScrollableScrollPhysics(),
-                itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
-                  value: bookList[i],
-                  child: const BookItem(),
+                itemBuilder: (ctx, i) => Column(
+                  children: [
+                    ChangeNotifierProvider.value(
+                      value: bookList[i],
+                      child: const BookItem(),
+                    ),
+                    const Divider(),
+                  ],
                 ),
               ),
             ),
