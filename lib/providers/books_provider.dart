@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../models/book.dart';
+import '../services/book_service.dart';
 
 class BooksProvider with ChangeNotifier {
+  final _bookService = BookService();
   String _searchString = "";
   int _scaffaleScelto = 0;
 
@@ -73,10 +75,12 @@ class BooksProvider with ChangeNotifier {
   }
 
   List<Book> getAll() {
-    if (_scaffaleScelto > 0) {
-      return List.from(_items.where((el) => el.scaffale == _scaffaleScelto));
-    }
-    return List.from(_items);
+    // if (_scaffaleScelto > 0) {
+    //   return List.from(_items.where((el) => el.scaffale == _scaffaleScelto));
+    // }
+
+    return _bookService.getAll();
+    // return List.from(_items);
   }
 
   void setScaffale(int scaffale) {

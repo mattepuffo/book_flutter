@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/books_provider.dart';
+import '../services/book_service.dart';
 import '../widgets/book_item_widget.dart';
 
 enum Scaffale {
@@ -21,10 +22,12 @@ class BooksScreen extends StatefulWidget {
 
 class _BooksScreenState extends State<BooksScreen> {
   final _searchController = TextEditingController();
+  final _bookService = BookService();
 
   @override
   void initState() {
     super.initState();
+    _bookService.getAll();
   }
 
   @override
