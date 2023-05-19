@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-class Books {
+class Books with ChangeNotifier {
   List<Book> books;
 
   Books({
@@ -11,9 +11,9 @@ class Books {
         books: List<Book>.from(json["books"].map((x) => Book.fromJson(x))),
       );
 
-  // Map<String, dynamic> toJson() => {
-  //       "books": List<dynamic>.from(books.map((x) => x.toJson())),
-  //     };
+// Map<String, dynamic> toJson() => {
+//       "books": List<dynamic>.from(books.map((x) => x.toJson())),
+//     };
 }
 
 class Book with ChangeNotifier {
@@ -57,16 +57,16 @@ class Book with ChangeNotifier {
         dataAggiunta: DateTime.parse(json["data_aggiunta"]),
       );
 
-  // Map<String, dynamic> toJson() => {
-  //       "id": id,
-  //       "title": title,
-  //       "author_id": authorId,
-  //       "author": author,
-  //       "editor_id": editorId,
-  //       "editor": editor,
-  //       "price": price,
-  //       "isbn": isbn,
-  //       "note": note,
-  //       "scaffale": scaffale,
-  //     };
+// Map<String, dynamic> toJson() => {
+//       "id": id,
+//       "title": title,
+//       "author_id": authorId,
+//       "author": author,
+//       "editor_id": editorId,
+//       "editor": editor,
+//       "price": price,
+//       "isbn": isbn,
+//       "note": note,
+//       "scaffale": scaffale,
+//     };
 }

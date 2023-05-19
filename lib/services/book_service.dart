@@ -5,13 +5,14 @@ import '../models/book.dart';
 
 class BookService {
   Future<List<Book>> getAll() async {
-    final url = Uri.https('www.mattepuffo.com', '/api/book/get.php');
+    final url = Uri.parse('https://www.mattepuffo.com/api/book/get.php');
     final response = await http.get(url);
-    Books books = Books.fromJson(json.decode(response.body));
-    List<Book> items = books.books;
-    for (final item in items) {
-      print(item.title);
+    if (response.statusCode == 200) {
+      final Books books = Books.fromJson(json.decode(response.body));
+      List<Book> items = books.books;
+      return items;
+    } else {
+      throw Exception('ERRORE!');
     }
-    return items;
   }
 }

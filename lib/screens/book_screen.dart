@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../providers/books_provider.dart';
+import '../models/book.dart';
 
 class BookScreen extends StatelessWidget {
   const BookScreen({super.key});
@@ -12,10 +11,12 @@ class BookScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final id = ModalRoute.of(context)?.settings.arguments as int;
 
-    final book = Provider.of<BooksProvider>(
-      context,
-      listen: false,
-    ).getById(id);
+    final book = Book();
+
+    // final book = Provider.of<BooksProvider>(
+    //   context,
+    //   listen: false,
+    // ).getById(id);
 
     return Scaffold(
       appBar: AppBar(

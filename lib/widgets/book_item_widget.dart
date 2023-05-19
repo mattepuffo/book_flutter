@@ -1,17 +1,15 @@
 import 'package:book_flutter/models/book.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../providers/books_provider.dart';
 import '../screens/book_screen.dart';
 
 class BookItem extends StatelessWidget {
-  const BookItem({super.key});
+  const BookItem({super.key, required this.book});
+
+  final Book book;
 
   @override
   Widget build(BuildContext context) {
-    final book = Provider.of<Book>(context, listen: false);
-
     void _showSnackBar() {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
@@ -31,7 +29,6 @@ class BookItem extends StatelessWidget {
     }
 
     void _del() {
-      Provider.of<BooksProvider>(context, listen: false).del(book);
       _showSnackBar();
     }
 

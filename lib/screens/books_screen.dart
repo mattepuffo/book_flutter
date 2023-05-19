@@ -1,9 +1,8 @@
+import 'package:book_flutter/models/book.dart';
+import 'package:book_flutter/services/book_service.dart';
 import 'package:book_flutter/widgets/main_menu_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../providers/books_provider.dart';
-import '../services/book_service.dart';
 import '../widgets/book_item_widget.dart';
 
 enum Scaffale {
@@ -27,7 +26,6 @@ class _BooksScreenState extends State<BooksScreen> {
   @override
   void initState() {
     super.initState();
-    _bookService.getAll();
   }
 
   @override
@@ -38,17 +36,12 @@ class _BooksScreenState extends State<BooksScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final booksData = Provider.of<BooksProvider>(context);
-    final bookList = booksData.items;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('MP Book'),
         actions: <Widget>[
           PopupMenuButton(
-            onSelected: (Scaffale selectedValue) {
-              booksData.setScaffale(selectedValue.index);
-            },
+            onSelected: (Scaffale selectedValue) {},
             icon: const Icon(
               Icons.more_vert_outlined,
             ),
@@ -79,9 +72,7 @@ class _BooksScreenState extends State<BooksScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
-              onChanged: (value) {
-                Provider.of<BooksProvider>(context, listen: false).cerca(value);
-              },
+              onChanged: (value) {},
               controller: _searchController,
               decoration: const InputDecoration(
                 labelText: "Cerca...",
@@ -105,19 +96,18 @@ class _BooksScreenState extends State<BooksScreen> {
                 _searchController.text = '';
                 await Future.delayed(const Duration(milliseconds: 1500));
               },
-              child: ListView.builder(
-                padding: const EdgeInsets.all(10.0),
-                itemCount: bookList.length,
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemBuilder: (ctx, i) => Column(
-                  children: [
-                    ChangeNotifierProvider.value(
-                      value: bookList[i],
-                      child: const BookItem(),
+              child: FutureBuilder<List<Book>>(
+                future: _bookService.getAll(),
+                builder: (context, initialData) {
+                  return ListView.builder(
+                    padding: const EdgeInsets.all(10.0),
+                    itemCount: initialData.data!.length,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    itemBuilder: (ctx, i) => BookItem(
+                      book: initialData.data![i],
                     ),
-                    const Divider(),
-                  ],
-                ),
+                  );
+                },
               ),
             ),
           ),
