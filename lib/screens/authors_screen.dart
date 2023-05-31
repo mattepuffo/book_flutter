@@ -6,9 +6,7 @@ class AuthorsScreen extends StatefulWidget {
   const AuthorsScreen({super.key});
 
   static const routeName = '/authors';
-
-
-
+  
   @override
   State<StatefulWidget> createState() => _AuthorsScreenState();
 }

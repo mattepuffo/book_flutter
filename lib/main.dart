@@ -19,9 +19,12 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Raleway',
         primarySwatch: Colors.amber,
         textTheme: const TextTheme(
-          headline6: TextStyle(fontWeight: FontWeight.bold),
-          bodyText1: TextStyle(
-              fontSize: 14.0, fontFamily: 'Hind', color: Colors.black),
+          headlineLarge: TextStyle(fontWeight: FontWeight.bold),
+          bodyLarge: TextStyle(
+            fontSize: 14.0,
+            fontFamily: 'Hind',
+            color: Colors.black,
+          ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(

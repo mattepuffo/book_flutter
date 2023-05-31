@@ -82,13 +82,6 @@ class BookItem extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
-            // shape: RoundedRectangleBorder(
-            //   side: BorderSide(
-            //     color: Theme.of(context).primaryColor,
-            //     width: 1,
-            //   ),
-            //   borderRadius: BorderRadius.circular(5),
-            // ),
             leading: CircleAvatar(
               radius: 20,
               child: Padding(
@@ -96,14 +89,14 @@ class BookItem extends StatelessWidget {
                 child: FittedBox(
                   child: Text(
                     '€ ${book.price}',
-                    style: Theme.of(context).textTheme.bodyText1,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
               ),
             ),
             title: Text(
               (book.title ?? ""),
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             subtitle: Text(book.author ?? ""),
             trailing: Wrap(
@@ -121,7 +114,7 @@ class BookItem extends StatelessWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.delete),
-                  color: Theme.of(context).errorColor,
+                  color: Theme.of(context).colorScheme.error,
                   onPressed: () => {
                     showDialog(
                       context: context,

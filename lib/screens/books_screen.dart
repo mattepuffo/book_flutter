@@ -1,5 +1,6 @@
 import 'package:book_flutter/models/book.dart';
 import 'package:book_flutter/services/book_service.dart';
+import 'package:book_flutter/utils/utils.dart';
 import 'package:book_flutter/widgets/main_menu_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -20,18 +21,32 @@ class BooksScreen extends StatefulWidget {
 }
 
 class _BooksScreenState extends State<BooksScreen> {
+  final _utils = Utils();
   final _searchController = TextEditingController();
   final _bookService = BookService();
+
+  late Future<List<Book>> _items;
+  late Future<List<Book>> _filterItems;
 
   @override
   void initState() {
     super.initState();
+    _items = _loadItems();
+    _filterItems = _items;
+
+    if (_utils.isMobile()) {
+      _utils.checkConnetcion();
+    }
   }
 
   @override
   void dispose() {
-    _searchController.dispose();
     super.dispose();
+    _searchController.dispose();
+  }
+
+  Future<List<Book>> _loadItems() async {
+    return _bookService.getAll();
   }
 
   @override
@@ -41,7 +56,12 @@ class _BooksScreenState extends State<BooksScreen> {
         title: const Text('MP Book'),
         actions: <Widget>[
           PopupMenuButton(
-            onSelected: (Scaffale selectedValue) {},
+            onSelected: (Scaffale selectedValue) {
+              setState(() {
+                _filterItems =
+                    _bookService.perScaffale(_items, selectedValue.index);
+              });
+            },
             icon: const Icon(
               Icons.more_vert_outlined,
             ),
@@ -72,7 +92,11 @@ class _BooksScreenState extends State<BooksScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
-              onChanged: (value) {},
+              onChanged: (value) {
+                setState(() {
+                  _filterItems = _bookService.cerca(_items, value);
+                });
+              },
               controller: _searchController,
               decoration: const InputDecoration(
                 labelText: "Cerca...",
@@ -97,8 +121,28 @@ class _BooksScreenState extends State<BooksScreen> {
                 await Future.delayed(const Duration(milliseconds: 1500));
               },
               child: FutureBuilder<List<Book>>(
-                future: _bookService.getAll(),
+                future: _filterItems,
                 builder: (context, initialData) {
+                  if (initialData.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  if (initialData.hasError) {
+                    return Center(
+                      child: Text(
+                        initialData.error.toString(),
+                      ),
+                    );
+                  }
+
+                  if (initialData.data!.isEmpty) {
+                    return const Center(
+                      child: Text('Nessun elemento trovato!'),
+                    );
+                  }
+
                   return ListView.builder(
                     padding: const EdgeInsets.all(10.0),
                     itemCount: initialData.data!.length,
