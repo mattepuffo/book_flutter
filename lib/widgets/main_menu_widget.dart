@@ -1,7 +1,9 @@
-import 'package:book_flutter/screens/authors_screen.dart';
-import 'package:book_flutter/screens/books_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+
+import '../screens/authors_screen.dart';
+import '../screens/books_screen.dart';
+import '../screens/form_author_screen.dart';
 
 class MainMenu extends StatelessWidget {
   const MainMenu({super.key});
@@ -64,6 +66,15 @@ class MainMenu extends StatelessWidget {
             () {
               Navigator.of(context)
                   .pushReplacementNamed(AuthorsScreen.routeName);
+            },
+          ),
+          const Divider(),
+          buildListTile(
+            'Aggiungi libro',
+            Icons.add,
+                () {
+              Navigator.of(context)
+                  .pushNamed(FormAuthorScreen.routeName);
             },
           ),
         ],

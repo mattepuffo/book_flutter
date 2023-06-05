@@ -57,16 +57,16 @@ class Book with ChangeNotifier {
         dataAggiunta: DateTime.parse(json["data_aggiunta"]),
       );
 
-// Map<String, dynamic> toJson() => {
-//       "id": id,
-//       "title": title,
-//       "author_id": authorId,
-//       "author": author,
-//       "editor_id": editorId,
-//       "editor": editor,
-//       "price": price,
-//       "isbn": isbn,
-//       "note": note,
-//       "scaffale": scaffale,
-//     };
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "author_id": authorId,
+        "author": author,
+        "editor_id": editorId,
+        "editor": editor,
+        "price": price,
+        "isbn": isbn,
+        "note": note,
+        "scaffale": scaffale,
+      };
 }
