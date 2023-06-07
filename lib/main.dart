@@ -37,10 +37,10 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         // '/': (ctx) => const BooksScreen(),
-        '/': (ctx) => FormAuthorScreen(),
+        '/': (ctx) => const FormAuthorScreen(),
         AuthorsScreen.routeName: (ctx) => const AuthorsScreen(),
         BookScreen.routeName: (ctx) => const BookScreen(),
-        FormAuthorScreen.routeName: (ctx) => FormAuthorScreen()
+        FormAuthorScreen.routeName: (ctx) => const FormAuthorScreen()
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(

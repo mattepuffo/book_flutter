@@ -39,6 +39,7 @@ dependencies:
   page_transition: "^2.0.9"
   http: ^0.13.6
   connectivity_plus: ^4.0.1
+  dropdown_textfield: ^1.0.8
 
 dev_dependencies:
   flutter_test:
