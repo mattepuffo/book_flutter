@@ -3,7 +3,8 @@ import 'package:page_transition/page_transition.dart';
 
 import '../screens/authors_screen.dart';
 import '../screens/books_screen.dart';
-import '../screens/form_author_screen.dart';
+import '../screens/editors_screen.dart';
+import '../screens/form_book_screen.dart';
 
 class MainMenu extends StatelessWidget {
   const MainMenu({super.key});
@@ -59,6 +60,20 @@ class MainMenu extends StatelessWidget {
               );
             },
           ),
+          buildListTile(
+            'Editori',
+            Icons.person,
+            () {
+              // Navigator.of(context).pushReplacementNamed(AuthorsScreen.routeName);
+              Navigator.pushReplacement(
+                context,
+                PageTransition(
+                  type: PageTransitionType.leftToRight,
+                  child: const EditorsScreen(),
+                ),
+              );
+            },
+          ),
           const Divider(),
           buildListTile(
             'Editori',
@@ -72,9 +87,8 @@ class MainMenu extends StatelessWidget {
           buildListTile(
             'Aggiungi libro',
             Icons.add,
-                () {
-              Navigator.of(context)
-                  .pushNamed(FormAuthorScreen.routeName);
+            () {
+              Navigator.of(context).pushNamed(FormBookScreen.routeName);
             },
           ),
         ],

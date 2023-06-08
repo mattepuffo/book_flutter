@@ -10,7 +10,7 @@ class Utils {
   static String basePathAuthor = '${basePath}author/';
   static String basePathEditor = '${basePath}editor/';
 
-   bool isMobile() {
+  bool isMobile() {
     if (Platform.isAndroid || Platform.isIOS || Platform.isFuchsia) {
       return true;
     }

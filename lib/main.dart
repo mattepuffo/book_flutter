@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import './screens/authors_screen.dart';
 import './screens/books_screen.dart';
 import './screens/book_screen.dart';
-import './screens/form_author_screen.dart';
+import './screens/form_book_screen.dart';
+import 'screens/editors_screen.dart';
 
 void main() => runApp(const MyApp());
 
@@ -37,10 +38,11 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         // '/': (ctx) => const BooksScreen(),
-        '/': (ctx) => const FormAuthorScreen(),
-        AuthorsScreen.routeName: (ctx) => const AuthorsScreen(),
+        '/': (ctx) => const FormBookScreen(),
         BookScreen.routeName: (ctx) => const BookScreen(),
-        FormAuthorScreen.routeName: (ctx) => const FormAuthorScreen()
+        AuthorsScreen.routeName: (ctx) => const AuthorsScreen(),
+        EditorsScreen.routeName: (ctx) => const EditorsScreen(),
+        FormBookScreen.routeName: (ctx) => const FormBookScreen()
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(

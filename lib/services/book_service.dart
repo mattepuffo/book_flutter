@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 import '../models/book.dart';
 import '../utils/utils.dart';
@@ -30,7 +31,18 @@ class BookService {
         : items;
   }
 
-  void invia() async{
+  Future<String> salva(Book item) async {
+    final url = Uri.parse('${Utils.basePathBook}add2.php');
 
+    final response = await http.post(
+      url,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: json.encode(item),
+    );
+
+    return response.body;
   }
 }
