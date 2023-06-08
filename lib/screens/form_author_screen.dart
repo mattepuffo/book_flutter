@@ -1,4 +1,4 @@
-import 'package:dropdown_textfield/dropdown_textfield.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
 import '../models/author.dart';
@@ -16,62 +16,22 @@ class FormAuthorScreen extends StatefulWidget {
 }
 
 class _FormAuthorState extends State<FormAuthorScreen> {
-  late SingleValueDropDownController _cnt;
-  FocusNode searchFocusNode = FocusNode();
-  FocusNode textFieldFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
-  late List<Author> _itemsAuthors = [];
   final _authorService = AuthorService();
 
   @override
   void initState() {
     super.initState();
-    _cnt = SingleValueDropDownController();
-    _loadAuthors();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _cnt.dispose();
   }
 
   void _salva() {
     _formKey.currentState!.validate();
     _formKey.currentState!.save();
-  }
-
-  void _loadAuthors() async {
-    List<Author> _tmpList = await _authorService.getAll();
-
-    setState(() {
-      _itemsAuthors = _tmpList;
-    });
-  }
-
-  List<DropDownValueModel> _drpAuthors() {
-    for (final autore in _itemsAuthors) {
-      _itemsAuthors.add(autore);
-    }
-
-    return const [
-      DropDownValueModel(name: 'name1', value: "value1"),
-      DropDownValueModel(
-          name: 'name2',
-          value: "value2",
-          toolTipMsg:
-              "DropDownButton is a widget that we can use to select one unique value from a set of values"),
-      DropDownValueModel(name: 'name3', value: "value3"),
-      DropDownValueModel(
-          name: 'name4',
-          value: "value4",
-          toolTipMsg:
-              "DropDownButton is a widget that we can use to select one unique value from a set of values"),
-      DropDownValueModel(name: 'name5', value: "value5"),
-      DropDownValueModel(name: 'name6', value: "value6"),
-      DropDownValueModel(name: 'name7', value: "value7"),
-      DropDownValueModel(name: 'name8', value: "value8"),
-    ];
   }
 
   Widget build(BuildContext context) {
@@ -100,25 +60,68 @@ class _FormAuthorState extends State<FormAuthorScreen> {
                   print(value);
                 },
               ),
-              DropDownTextField(
-                textFieldDecoration: const InputDecoration(
-                  label: Text('Autore'),
+              Center(
+                child: FutureBuilder<List<Author>>(
+                  future: _authorService.getAll(),
+                  builder: (context, initialData) {
+                    if (initialData.connectionState ==
+                        ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    if (initialData.hasError) {
+                      return Center(
+                        child: Text(
+                          initialData.error.toString(),
+                        ),
+                      );
+                    }
+
+                    if (initialData.data!.isEmpty) {
+                      return const Center(
+                        child: Text('Nessun elemento trovato!'),
+                      );
+                    }
+
+                    List<String> items = [];
+                    for (var e in initialData.data!) {
+                      items.add(e.name!);
+                    }
+
+                    // return DropdownSearch<String>(
+                    //   popupProps: const PopupProps.menu(
+                    //     showSelectedItems: true,
+                    //     // disabledItemFn: (String s) => s.startsWith('I'),
+                    //   ),
+                    //   // items: ["Brazil", "Italia (Disabled)", "Tunisia", 'Canada'],
+                    //   items: items,
+                    //   dropdownDecoratorProps: const DropDownDecoratorProps(
+                    //     dropdownSearchDecoration: InputDecoration(
+                    //       labelText: "Autore",
+                    //       hintText: "Autore",
+                    //     ),
+                    //   ),
+                    //   onChanged: print,
+                    //   // selectedItem: "Brazil",
+                    // );
+
+                    return DropdownButton<String>(
+                      items: initialData.data!.map(
+                        (item) {
+                          return DropdownMenuItem<String>(
+                            value: item.id.toString(),
+                            child: Text(item.name!),
+                          );
+                        },
+                      ).toList(),
+                      onChanged: (value) {
+                        print(value);
+                      },
+                    );
+                  },
                 ),
-                searchDecoration: const InputDecoration(
-                  label: Text('Cerca autore'),
-                ),
-                clearOption: false,
-                textFieldFocusNode: textFieldFocusNode,
-                searchFocusNode: searchFocusNode,
-                // searchAutofocus: true,
-                dropDownItemCount: _drpAuthors().length,
-                searchShowCursor: false,
-                enableSearch: true,
-                searchKeyboardType: TextInputType.number,
-                dropDownList: _drpAuthors(),
-                onChanged: (val) {
-                  print(val.name);
-                },
               ),
               TextFormField(
                 keyboardType:

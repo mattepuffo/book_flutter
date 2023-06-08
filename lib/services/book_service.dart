@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'package:book_flutter/utils/utils.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/book.dart';
+import '../utils/utils.dart';
 
 class BookService {
   Future<List<Book>> getAll() async {
