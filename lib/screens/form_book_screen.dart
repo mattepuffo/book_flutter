@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:book_flutter/services/editor_service.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../models/author.dart';
 import '../models/book.dart';
@@ -10,6 +11,7 @@ import '../models/editor.dart';
 import '../models/http_response.dart';
 import '../services/author_service.dart';
 import '../services/book_service.dart';
+import 'books_screen.dart';
 
 class FormBookScreen extends StatefulWidget {
   const FormBookScreen({super.key});
@@ -27,6 +29,7 @@ class _FormBookState extends State<FormBookScreen> {
   final _bookService = BookService();
   final _authorService = AuthorService();
   final _editorService = EditorService();
+  final _userEditTextController = TextEditingController(text: 'Mrs');
   static const double spazio = 15;
 
   String _titolo = "";
@@ -47,7 +50,7 @@ class _FormBookState extends State<FormBookScreen> {
     super.dispose();
   }
 
-  void _salva() {
+  void _salva() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
@@ -62,13 +65,36 @@ class _FormBookState extends State<FormBookScreen> {
       );
 
       Future<String> resp = _bookService.salva(book);
-      // final httpResponse = HttpResponse.fromJson(json.decode(resp));
-      // print('Res: ${httpResponse.res}; Message: ${httpResponse.message}');
+      String rr = await resp;
+      final httpResponse = HttpResponse.fromJson(json.decode(rr));
+
+      if (httpResponse.res == 'ko') {
+        if (!context.mounted) return;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              httpResponse.message,
+            ),
+          ),
+        );
+      } else {
+        if (!context.mounted) return;
+
+        Navigator.pushReplacement(
+          context,
+          PageTransition(
+            type: PageTransitionType.rightToLeft,
+            child: const BooksScreen(),
+          ),
+        );
+      }
     }
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text("Aggiungi / modifica Libro"),
       ),
@@ -214,7 +240,13 @@ class _FormBookState extends State<FormBookScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          child: const BooksScreen(),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red, // Background color

@@ -45,4 +45,19 @@ class BookService {
 
     return response.body;
   }
+
+  Future<String> del(Book item) async {
+    final url = Uri.parse('${Utils.basePathBook}del.php');
+
+    final response = await http.post(
+      url,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: json.encode(item),
+    );
+
+    return response.body;
+  }
 }

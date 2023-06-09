@@ -35,6 +35,7 @@ class _BooksScreenState extends State<BooksScreen> {
     _filterItems = _items;
 
     if (_utils.isMobile()) {
+      // TODO su mobile
       _utils.checkConnetcion();
     }
   }
@@ -55,6 +56,29 @@ class _BooksScreenState extends State<BooksScreen> {
       appBar: AppBar(
         title: const Text('MP Book'),
         actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.refresh,
+            ),
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    "CANCELLATO!",
+                  ),
+                  duration: Duration(seconds: 5000),
+                ),
+              );
+
+              _items = _loadItems();
+              _filterItems = _items;
+
+              // TODO sleep
+
+              // ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            },
+          ),
           PopupMenuButton(
             onSelected: (Scaffale selectedValue) {
               setState(() {

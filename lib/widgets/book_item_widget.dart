@@ -1,35 +1,48 @@
+import 'dart:convert';
+
 import 'package:book_flutter/models/book.dart';
 import 'package:flutter/material.dart';
 
+import '../models/http_response.dart';
 import '../screens/book_screen.dart';
+import '../services/book_service.dart';
 
 class BookItem extends StatelessWidget {
-  const BookItem({super.key, required this.book});
+  BookItem({super.key, required this.book});
 
+  final _bookService = BookService();
   final Book book;
 
   @override
   Widget build(BuildContext context) {
-    void _showSnackBar() {
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text(
-            "CANCELLATO!",
-          ),
-          duration: const Duration(seconds: 5),
-          action: SnackBarAction(
-            label: "Annulla",
-            onPressed: () {
-              print("ANNULLATO");
-            },
-          ),
-        ),
-      );
-    }
+    void _del(Book b) async {
+      Future<String> resp = _bookService.del(book);
+      String rr = await resp;
+      final httpResponse = HttpResponse.fromJson(json.decode(rr));
 
-    void _del() {
-      _showSnackBar();
+      if (httpResponse.res == 'ko') {
+        if (!context.mounted) return;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              httpResponse.message,
+            ),
+          ),
+        );
+      } else {
+        if (!context.mounted) return;
+
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              "CANCELLATO!",
+            ),
+            duration: Duration(seconds: 5),
+          ),
+        );
+      }
     }
 
     Widget _confDialog() {
@@ -46,7 +59,7 @@ class BookItem extends StatelessWidget {
             },
           ),
           TextButton(
-            child: const Text('Yes'),
+            child: const Text('Si'),
             onPressed: () {
               Navigator.of(context).pop(true);
             },
@@ -72,11 +85,7 @@ class BookItem extends StatelessWidget {
       },
       onDismissed: (direction) {
         if (direction == DismissDirection.endToStart) {
-          _del();
-        }
-
-        if (direction == DismissDirection.startToEnd) {
-          print('ALTRA AZIONE');
+          _del(book);
         }
       },
       child: Column(
@@ -123,7 +132,7 @@ class BookItem extends StatelessWidget {
                       (value) => {
                         if (value)
                           {
-                            _del(),
+                            _del(book),
                           },
                       },
                     ),
