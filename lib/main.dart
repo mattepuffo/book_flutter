@@ -4,7 +4,6 @@ import 'package:window_manager/window_manager.dart';
 
 import './screens/authors_screen.dart';
 import './screens/books_screen.dart';
-import './screens/book_screen.dart';
 import './screens/form_book_screen.dart';
 import './screens/editors_screen.dart';
 
@@ -13,11 +12,7 @@ void main() async {
   await windowManager.ensureInitialized();
 
   WindowOptions windowOptions = const WindowOptions(
-    // size: Size(1000, 1000),
     center: true,
-    // backgroundColor: Colors.transparent,
-    // skipTaskbar: false,
-    // titleBarStyle: TitleBarStyle.hidden,
     title: 'MP Book',
   );
 
@@ -58,9 +53,8 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (ctx) => const BooksScreen(),
-        // '/': (ctx) => const FormBookScreen(),
-        BookScreen.routeName: (ctx) => const BookScreen(),
+        // '/': (ctx) => const BooksScreen(),
+        '/': (ctx) => const FormBookScreen(),
         AuthorsScreen.routeName: (ctx) => const AuthorsScreen(),
         EditorsScreen.routeName: (ctx) => const EditorsScreen(),
         FormBookScreen.routeName: (ctx) => const FormBookScreen()

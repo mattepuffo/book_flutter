@@ -4,7 +4,7 @@ import 'package:book_flutter/models/book.dart';
 import 'package:flutter/material.dart';
 
 import '../models/http_response.dart';
-import '../screens/book_screen.dart';
+import '../screens/form_book_screen.dart';
 import '../services/book_service.dart';
 
 class BookItem extends StatelessWidget {
@@ -16,7 +16,7 @@ class BookItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void _del(Book b) async {
+    void del(Book b) async {
       Future<String> resp = _bookService.del(book);
       String rr = await resp;
       final httpResponse = HttpResponse.fromJson(json.decode(rr));
@@ -48,7 +48,7 @@ class BookItem extends StatelessWidget {
       }
     }
 
-    Widget _confDialog() {
+    Widget confDialog() {
       return AlertDialog(
         title: const Text('ATTENZIONE?'),
         content: const Text(
@@ -84,11 +84,11 @@ class BookItem extends StatelessWidget {
         ),
       ),
       confirmDismiss: (direction) {
-        return showDialog(context: context, builder: (ctx) => _confDialog());
+        return showDialog(context: context, builder: (ctx) => confDialog());
       },
       onDismissed: (direction) {
         if (direction == DismissDirection.endToStart) {
-          _del(book);
+          del(book);
         }
       },
       child: Column(
@@ -119,8 +119,8 @@ class BookItem extends StatelessWidget {
                   color: Colors.purple,
                   onPressed: () => {
                     Navigator.of(context).pushNamed(
-                      BookScreen.routeName,
-                      arguments: book.id,
+                      FormBookScreen.routeName,
+                      arguments: book,
                     )
                   },
                 ),
@@ -130,12 +130,12 @@ class BookItem extends StatelessWidget {
                   onPressed: () => {
                     showDialog(
                       context: context,
-                      builder: (ctx) => _confDialog(),
+                      builder: (ctx) => confDialog(),
                     ).then(
                       (value) => {
                         if (value)
                           {
-                            _del(book),
+                            del(book),
                           },
                       },
                     ),

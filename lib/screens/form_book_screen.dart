@@ -29,12 +29,12 @@ class _FormBookState extends State<FormBookScreen> {
   final _bookService = BookService();
   final _authorService = AuthorService();
   final _editorService = EditorService();
-  static const double spazio = 15;
+  static const double spazio = 10;
 
   String _titolo = "";
   int _autore = 0;
   int _editore = 0;
-  String _prezzo = "";
+  String _prezzo = 0.0;
   String _isbn = "";
   int _scaffale = 0;
   String _note = "";
@@ -92,169 +92,193 @@ class _FormBookState extends State<FormBookScreen> {
   }
 
   Widget build(BuildContext context) {
+    final objArgs = ModalRoute.of(context)?.settings.arguments;
+    late Book book;
+    if (objArgs != null) {
+      book = objArgs as Book;
+      _titolo = book.title!;
+      _prezzo = book.price!;
+      _isbn = book.isbn!;
+      _scaffale = book.scaffale!;
+      _note = book.note!;
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text("Aggiungi / modifica Libro"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  label: Text('Titolo *'),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty || value.trim().isEmpty) {
-                    return 'Inserire un titolo!';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _titolo = value!;
-                },
-              ),
-              const SizedBox(
-                height: spazio,
-              ),
-              DropdownSearch<Author>(
-                asyncItems: (String filter) => _authorService.getAll(),
-                itemAsString: (Author u) => u.name!,
-                dropdownDecoratorProps: const DropDownDecoratorProps(
-                  dropdownSearchDecoration: InputDecoration(
-                    labelText: "Autore *",
-                    hintText: "Autore *",
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  initialValue: _titolo,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(
+                    label: Text('Titolo *'),
                   ),
+                  validator: (value) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        value.trim().isEmpty) {
+                      return 'Inserire un titolo!';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _titolo = value!;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null) {
-                    return 'Inserire un autore!';
-                  }
-                  return null;
-                },
-                onChanged: (Author? value) {
-                  _autore = value!.id!;
-                },
-              ),
-              const SizedBox(
-                height: spazio,
-              ),
-              DropdownSearch<Editor>(
-                asyncItems: (String filter) => _editorService.getAll(),
-                itemAsString: (Editor u) => u.name!,
-                dropdownDecoratorProps: const DropDownDecoratorProps(
-                  dropdownSearchDecoration: InputDecoration(
-                    labelText: "Editore *",
-                    hintText: "Editore",
-                  ),
+                const SizedBox(
+                  height: spazio,
                 ),
-                validator: (value) {
-                  if (value == null) {
-                    return 'Inserire un editore!';
-                  }
-                  return null;
-                },
-                onChanged: (Editor? value) {
-                  _editore = value!.id!;
-                },
-              ),
-              const SizedBox(
-                height: spazio,
-              ),
-              TextFormField(
-                keyboardType: const TextInputType.numberWithOptions(
-                  decimal: true,
-                ),
-                decoration: const InputDecoration(
-                  label: Text('Prezzo *'),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty || value.trim().isEmpty) {
-                    return 'Inserire un prezzo!';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _prezzo = value!;
-                },
-              ),
-              const SizedBox(
-                height: spazio,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(
-                  label: Text('ISBN'),
-                ),
-                onSaved: (value) {
-                  _isbn = value!;
-                },
-              ),
-              const SizedBox(
-                height: spazio,
-              ),
-              TextFormField(
-                keyboardType: const TextInputType.numberWithOptions(
-                  signed: false,
-                ),
-                decoration: const InputDecoration(
-                  label: Text('Scaffale *'),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty || value.trim().isEmpty) {
-                    return 'Inserire uno scaffale!';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _scaffale = int.parse(value!);
-                },
-              ),
-              const SizedBox(
-                height: spazio,
-              ),
-              TextFormField(
-                minLines: 3,
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                decoration: const InputDecoration(
-                  label: Text('Note'),
-                ),
-                onSaved: (value) {
-                  _note = value!;
-                },
-              ),
-              const SizedBox(
-                height: spazio,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(
-                    onPressed: _salva,
-                    child: const Text('Salva'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: const BooksScreen(),
-                        ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red, // Background color
+                DropdownSearch<Author>(
+                  asyncItems: (String filter) => _authorService.getAll(),
+                  itemAsString: (Author u) => u.name!,
+                  dropdownDecoratorProps: const DropDownDecoratorProps(
+                    dropdownSearchDecoration: InputDecoration(
+                      labelText: "Autore *",
+                      hintText: "Autore *",
                     ),
-                    child: const Text('Annulla'),
                   ),
-                ],
-              ),
-            ],
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Inserire un autore!';
+                    }
+                    return null;
+                  },
+                  onChanged: (Author? value) {
+                    _autore = value!.id!;
+                  },
+                ),
+                const SizedBox(
+                  height: spazio,
+                ),
+                DropdownSearch<Editor>(
+                  asyncItems: (String filter) => _editorService.getAll(),
+                  itemAsString: (Editor u) => u.name!,
+                  dropdownDecoratorProps: const DropDownDecoratorProps(
+                    dropdownSearchDecoration: InputDecoration(
+                      labelText: "Editore *",
+                      hintText: "Editore",
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Inserire un editore!';
+                    }
+                    return null;
+                  },
+                  onChanged: (Editor? value) {
+                    _editore = value!.id!;
+                  },
+                ),
+                const SizedBox(
+                  height: spazio,
+                ),
+                TextFormField(
+                  initialValue: _prezzo,
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
+                  decoration: const InputDecoration(
+                    label: Text('Prezzo *'),
+                  ),
+                  validator: (value) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        value.trim().isEmpty) {
+                      return 'Inserire un prezzo!';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _prezzo = value!;
+                  },
+                ),
+                const SizedBox(
+                  height: spazio,
+                ),
+                TextFormField(
+                  initialValue: _isbn,
+                  decoration: const InputDecoration(
+                    label: Text('ISBN'),
+                  ),
+                  onSaved: (value) {
+                    _isbn = value!;
+                  },
+                ),
+                const SizedBox(
+                  height: spazio,
+                ),
+                TextFormField(
+                  initialValue: _scaffale,
+                  keyboardType: const TextInputType.numberWithOptions(
+                    signed: false,
+                  ),
+                  decoration: const InputDecoration(
+                    label: Text('Scaffale *'),
+                  ),
+                  validator: (value) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        value.trim().isEmpty) {
+                      return 'Inserire uno scaffale!';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _scaffale = int.parse(value!);
+                  },
+                ),
+                const SizedBox(
+                  height: spazio,
+                ),
+                TextFormField(
+                  initialValue: _note,
+                  minLines: 3,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  decoration: const InputDecoration(
+                    label: Text('Note'),
+                  ),
+                  onSaved: (value) {
+                    _note = value!;
+                  },
+                ),
+                const SizedBox(
+                  height: spazio,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: _salva,
+                      child: const Text('Salva'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.rightToLeft,
+                            child: const BooksScreen(),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red, // Background color
+                      ),
+                      child: const Text('Annulla'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
