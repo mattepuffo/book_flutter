@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../models/http_response.dart';
 import '../screens/form_book_screen.dart';
 import '../services/book_service.dart';
+import 'list_divider.dart';
 
 class BookItem extends StatelessWidget {
   BookItem({super.key, required this.book, required this.onDel});
@@ -144,9 +145,7 @@ class BookItem extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(
-            height: 5,
-          ),
+          const ListDivider(),
         ],
       ),
     );

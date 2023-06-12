@@ -33,10 +33,12 @@ class _FormBookState extends State<FormBookScreen> {
 
   String _titolo = "";
   int _autore = 0;
+  Author _objAutore = Author();
+  Editor _objEditore = Editor();
   int _editore = 0;
-  String _prezzo = 0.0;
+  String _prezzo = "0.0";
   String _isbn = "";
-  int _scaffale = 0;
+  String _scaffale = "0";
   String _note = "";
 
   @override
@@ -59,7 +61,7 @@ class _FormBookState extends State<FormBookScreen> {
         editorId: _editore,
         price: double.parse(_prezzo),
         isbn: _isbn,
-        scaffale: _scaffale,
+        scaffale: int.parse(_scaffale),
         note: _note,
       );
 
@@ -97,10 +99,13 @@ class _FormBookState extends State<FormBookScreen> {
     if (objArgs != null) {
       book = objArgs as Book;
       _titolo = book.title!;
-      _prezzo = book.price!;
+      _prezzo = book.price!.toString();
       _isbn = book.isbn!;
-      _scaffale = book.scaffale!;
+      _scaffale = book.scaffale!.toString();
       _note = book.note!;
+
+      _objAutore = Author(id: book.authorId, name: book.author);
+      _objEditore = Editor(id: book.editorId, name: book.editor);
     }
 
     return Scaffold(
@@ -137,6 +142,7 @@ class _FormBookState extends State<FormBookScreen> {
                   height: spazio,
                 ),
                 DropdownSearch<Author>(
+                  selectedItem: _objAutore,
                   asyncItems: (String filter) => _authorService.getAll(),
                   itemAsString: (Author u) => u.name!,
                   dropdownDecoratorProps: const DropDownDecoratorProps(
@@ -159,6 +165,7 @@ class _FormBookState extends State<FormBookScreen> {
                   height: spazio,
                 ),
                 DropdownSearch<Editor>(
+                  selectedItem: _objEditore,
                   asyncItems: (String filter) => _editorService.getAll(),
                   itemAsString: (Editor u) => u.name!,
                   dropdownDecoratorProps: const DropDownDecoratorProps(
@@ -232,7 +239,7 @@ class _FormBookState extends State<FormBookScreen> {
                     return null;
                   },
                   onSaved: (value) {
-                    _scaffale = int.parse(value!);
+                    _scaffale = value!;
                   },
                 ),
                 const SizedBox(
