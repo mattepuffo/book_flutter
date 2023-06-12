@@ -48,7 +48,7 @@ class _EditorsScreenState extends State<EditorsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Autori'),
+        title: const Text('Editori'),
       ),
       drawer: const MainMenu(),
       body: Column(

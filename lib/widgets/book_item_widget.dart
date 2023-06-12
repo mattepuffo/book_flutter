@@ -8,10 +8,11 @@ import '../screens/book_screen.dart';
 import '../services/book_service.dart';
 
 class BookItem extends StatelessWidget {
-  BookItem({super.key, required this.book});
+  BookItem({super.key, required this.book, required this.onDel});
 
   final _bookService = BookService();
   final Book book;
+  final Function() onDel;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,8 @@ class BookItem extends StatelessWidget {
         );
       } else {
         if (!context.mounted) return;
+
+        onDel();
 
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(

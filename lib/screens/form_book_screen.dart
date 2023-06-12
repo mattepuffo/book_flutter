@@ -29,7 +29,6 @@ class _FormBookState extends State<FormBookScreen> {
   final _bookService = BookService();
   final _authorService = AuthorService();
   final _editorService = EditorService();
-  final _userEditTextController = TextEditingController(text: 'Mrs');
   static const double spazio = 15;
 
   String _titolo = "";

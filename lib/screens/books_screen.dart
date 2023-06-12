@@ -50,6 +50,33 @@ class _BooksScreenState extends State<BooksScreen> {
     return _bookService.getAll();
   }
 
+  void _refreshBooks() {
+    _searchController.text = '';
+
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Center(
+          child: CircularProgressIndicator(
+            color: Colors.yellow,
+          ),
+        ),
+        duration: Duration(seconds: 5000),
+      ),
+    );
+
+    _items = _loadItems();
+
+    setState(() {
+      _filterItems = _items;
+    });
+
+    Future.delayed(
+      const Duration(seconds: 5),
+      () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,22 +88,7 @@ class _BooksScreenState extends State<BooksScreen> {
               Icons.refresh,
             ),
             onPressed: () {
-              ScaffoldMessenger.of(context).hideCurrentSnackBar();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    "CANCELLATO!",
-                  ),
-                  duration: Duration(seconds: 5000),
-                ),
-              );
-
-              _items = _loadItems();
-              _filterItems = _items;
-
-              // TODO sleep
-
-              // ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              _refreshBooks();
             },
           ),
           PopupMenuButton(
@@ -173,6 +185,7 @@ class _BooksScreenState extends State<BooksScreen> {
                     physics: const AlwaysScrollableScrollPhysics(),
                     itemBuilder: (ctx, i) => BookItem(
                       book: initialData.data![i],
+                      onDel: _refreshBooks,
                     ),
                   );
                 },

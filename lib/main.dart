@@ -1,13 +1,34 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:window_manager/window_manager.dart';
 
 import './screens/authors_screen.dart';
 import './screens/books_screen.dart';
 import './screens/book_screen.dart';
 import './screens/form_book_screen.dart';
-import 'screens/editors_screen.dart';
+import './screens/editors_screen.dart';
 
-void main() => runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
+
+  WindowOptions windowOptions = const WindowOptions(
+    // size: Size(1000, 1000),
+    center: true,
+    // backgroundColor: Colors.transparent,
+    // skipTaskbar: false,
+    // titleBarStyle: TitleBarStyle.hidden,
+    title: 'MP Book',
+  );
+
+  windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.show();
+    await windowManager.focus();
+  });
+
+  runApp(const MyApp());
+}
+// void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -37,9 +58,9 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        // '/': (ctx) => const BooksScreen(),
+        '/': (ctx) => const BooksScreen(),
         // '/': (ctx) => const FormBookScreen(),
-        // BookScreen.routeName: (ctx) => const BookScreen(),
+        BookScreen.routeName: (ctx) => const BookScreen(),
         AuthorsScreen.routeName: (ctx) => const AuthorsScreen(),
         EditorsScreen.routeName: (ctx) => const EditorsScreen(),
         FormBookScreen.routeName: (ctx) => const FormBookScreen()
