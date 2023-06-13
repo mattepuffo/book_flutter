@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/author.dart';
-import 'list_divider.dart';
+import 'list_divider_widget.dart';
 
 class AuthorItem extends StatelessWidget {
   const AuthorItem({super.key, required this.item});
@@ -33,7 +33,7 @@ class AuthorItem extends StatelessWidget {
             ],
           ),
         ),
-        const ListDivider(),
+        const ListDividerWidget(),
       ],
     );
   }

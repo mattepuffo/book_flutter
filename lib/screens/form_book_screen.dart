@@ -31,10 +31,11 @@ class _FormBookState extends State<FormBookScreen> {
   final _editorService = EditorService();
   static const double spazio = 10;
 
+  int _id = 0;
   String _titolo = "";
   int _autore = 0;
-  Author _objAutore = Author();
-  Editor _objEditore = Editor();
+  Author? _objAutore = Author(id: 0, name: "");
+  Editor? _objEditore = Editor(id: 0, name: "");
   int _editore = 0;
   String _prezzo = "0.0";
   String _isbn = "";
@@ -56,6 +57,7 @@ class _FormBookState extends State<FormBookScreen> {
       _formKey.currentState!.save();
 
       final book = Book(
+        id: _id,
         title: _titolo,
         authorId: _autore,
         editorId: _editore,
@@ -98,7 +100,10 @@ class _FormBookState extends State<FormBookScreen> {
     late Book book;
     if (objArgs != null) {
       book = objArgs as Book;
+      _id = book.id!;
       _titolo = book.title!;
+      _autore = book.authorId!;
+      _editore = book.editorId!;
       _prezzo = book.price!.toString();
       _isbn = book.isbn!;
       _scaffale = book.scaffale!.toString();
@@ -152,7 +157,7 @@ class _FormBookState extends State<FormBookScreen> {
                     ),
                   ),
                   validator: (value) {
-                    if (value == null) {
+                    if (value == null || value.id == 0) {
                       return 'Inserire un autore!';
                     }
                     return null;
@@ -175,7 +180,7 @@ class _FormBookState extends State<FormBookScreen> {
                     ),
                   ),
                   validator: (value) {
-                    if (value == null) {
+                    if (value == null || value.id == 0) {
                       return 'Inserire un editore!';
                     }
                     return null;

@@ -1,17 +1,11 @@
-import 'package:book_flutter/services/book_service.dart';
-import 'package:book_flutter/utils/utils.dart';
-import 'package:book_flutter/widgets/main_menu_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../models/book.dart';
+import '../services/book_service.dart';
+import '../utils/scaffale.dart';
+import '../utils/utils.dart';
 import '../widgets/book_item_widget.dart';
-
-enum Scaffale {
-  Zero,
-  Uno,
-  Due,
-  Tre,
-}
+import '../widgets/main_menu_widget.dart';
 
 class BooksScreen extends StatefulWidget {
   const BooksScreen({super.key});
@@ -21,6 +15,7 @@ class BooksScreen extends StatefulWidget {
 }
 
 class _BooksScreenState extends State<BooksScreen> {
+  Scaffale selectedValue = Scaffale.Tutti;
   final _utils = Utils();
   final _searchController = TextEditingController();
   final _bookService = BookService();
@@ -91,40 +86,90 @@ class _BooksScreenState extends State<BooksScreen> {
               _refreshBooks();
             },
           ),
-          PopupMenuButton(
-            onSelected: (Scaffale selectedValue) {
-              setState(() {
-                _filterItems =
-                    _bookService.perScaffale(_items, selectedValue.index);
-              });
-            },
-            icon: const Icon(
-              Icons.more_vert_outlined,
-            ),
-            itemBuilder: (_) => [
-              const PopupMenuItem(
-                value: Scaffale.Zero,
-                child: Text('Tutti'),
-              ),
-              const PopupMenuItem(
-                value: Scaffale.Uno,
-                child: Text('Scaffale uno'),
-              ),
-              const PopupMenuItem(
-                value: Scaffale.Due,
-                child: Text('Scaffale due'),
-              ),
-              const PopupMenuItem(
-                value: Scaffale.Tre,
-                child: Text('Scaffale tre'),
-              ),
-            ],
-          ),
+          // PopupMenuButton(
+          //   onSelected: (Scaffale selectedValue) {
+          //     setState(() {
+          //       _filterItems =
+          //           _bookService.perScaffale(_items, selectedValue.index);
+          //     });
+          //   },
+          //   icon: const Icon(
+          //     Icons.more_vert_outlined,
+          //   ),
+          //   itemBuilder: (_) => [
+          //     const PopupMenuItem(
+          //       value: Scaffale.Zero,
+          //       child: Text('Tutti'),
+          //     ),
+          //     const PopupMenuItem(
+          //       value: Scaffale.Uno,
+          //       child: Text('Scaffale uno'),
+          //     ),
+          //     const PopupMenuItem(
+          //       value: Scaffale.Due,
+          //       child: Text('Scaffale due'),
+          //     ),
+          //     const PopupMenuItem(
+          //       value: Scaffale.Tre,
+          //       child: Text('Scaffale tre'),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
       drawer: const MainMenu(),
       body: Column(
         children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                      color: Colors.black38,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(2),
+                    boxShadow: const <BoxShadow>[
+                      BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.57),
+                        blurRadius: 5,
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 2,
+                      horizontal: 10,
+                    ),
+                    child: DropdownButton<Scaffale>(
+                      value: selectedValue,
+                      items: Scaffale.values.map((Scaffale item) {
+                        return DropdownMenuItem<Scaffale>(
+                          value: item,
+                          child: Text(
+                            item.name,
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (Scaffale? value) {
+                        setState(() {
+                          selectedValue = value!;
+                          _filterItems = _bookService.perScaffale(
+                            _items,
+                            selectedValue.index,
+                          );
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(

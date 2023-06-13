@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/editor.dart';
-import 'list_divider.dart';
+import 'list_divider_widget.dart';
 
 class EditorItem extends StatelessWidget {
   const EditorItem({super.key, required this.item});
@@ -33,7 +33,7 @@ class EditorItem extends StatelessWidget {
             ],
           ),
         ),
-        const ListDivider(),
+        const ListDividerWidget(),
       ],
     );
   }
