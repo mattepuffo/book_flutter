@@ -6,6 +6,8 @@ import './screens/authors_screen.dart';
 import './screens/books_screen.dart';
 import './screens/form_book_screen.dart';
 import './screens/editors_screen.dart';
+import 'screens/form_author_screen.dart';
+import 'screens/form_editor_screen.dart';
 import 'utils/utils.dart';
 
 void main() async {
@@ -57,11 +59,13 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (ctx) => const BooksScreen(),
-        // '/': (ctx) => const FormBookScreen(),
+        // '/': (ctx) => const BooksScreen(),
+        '/': (ctx) => const AuthorsScreen(),
         AuthorsScreen.routeName: (ctx) => const AuthorsScreen(),
         EditorsScreen.routeName: (ctx) => const EditorsScreen(),
-        FormBookScreen.routeName: (ctx) => const FormBookScreen()
+        FormBookScreen.routeName: (ctx) => const FormBookScreen(),
+        FormAuthorScreen.routeName: (ctx) => const FormAuthorScreen(),
+        FormEditorScreen.routeName: (ctx) => const FormEditorScreen(),
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(

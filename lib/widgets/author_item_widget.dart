@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/author.dart';
+import '../screens/form_author_screen.dart';
 import 'list_divider_widget.dart';
 
 class AuthorItem extends StatelessWidget {
@@ -24,8 +25,9 @@ class AuthorItem extends StatelessWidget {
                 icon: const Icon(Icons.remove_red_eye),
                 color: Colors.purple,
                 onPressed: () => {
+                  print(item.id)
                   // Navigator.of(context).pushNamed(
-                  //   BookScreen.routeName,
+                  //   FormAuthorScreen.routeName,
                   //   arguments: item.id,
                   // )
                 },

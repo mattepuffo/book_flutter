@@ -16,7 +16,7 @@ import 'books_screen.dart';
 class FormBookScreen extends StatefulWidget {
   const FormBookScreen({super.key});
 
-  static const routeName = '/form_author';
+  static const routeName = '/form_book';
 
   @override
   State<FormBookScreen> createState() {
