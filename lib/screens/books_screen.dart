@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../models/book.dart';
 import '../services/book_service.dart';
+import '../utils/ordinamenti.dart';
 import '../utils/scaffale.dart';
-import '../utils/utils.dart';
 import '../widgets/book_item_widget.dart';
 import '../widgets/main_menu_widget.dart';
 
@@ -15,8 +15,9 @@ class BooksScreen extends StatefulWidget {
 }
 
 class _BooksScreenState extends State<BooksScreen> {
-  Scaffale selectedValue = Scaffale.Tutti;
-  final _utils = Utils();
+  Scaffale selectedScaffale = Scaffale.Tutti;
+  OrdinamentoLibro selectedOrdinamento = OrdinamentoLibro.titoloAsc;
+
   final _searchController = TextEditingController();
   final _bookService = BookService();
 
@@ -28,11 +29,6 @@ class _BooksScreenState extends State<BooksScreen> {
     super.initState();
     _items = _loadItems();
     _filterItems = _items;
-
-    if (_utils.isMobile()) {
-      // TODO su mobile
-      _utils.checkConnetcion();
-    }
   }
 
   @override
@@ -86,42 +82,13 @@ class _BooksScreenState extends State<BooksScreen> {
               _refreshBooks();
             },
           ),
-          // PopupMenuButton(
-          //   onSelected: (Scaffale selectedValue) {
-          //     setState(() {
-          //       _filterItems =
-          //           _bookService.perScaffale(_items, selectedValue.index);
-          //     });
-          //   },
-          //   icon: const Icon(
-          //     Icons.more_vert_outlined,
-          //   ),
-          //   itemBuilder: (_) => [
-          //     const PopupMenuItem(
-          //       value: Scaffale.Zero,
-          //       child: Text('Tutti'),
-          //     ),
-          //     const PopupMenuItem(
-          //       value: Scaffale.Uno,
-          //       child: Text('Scaffale uno'),
-          //     ),
-          //     const PopupMenuItem(
-          //       value: Scaffale.Due,
-          //       child: Text('Scaffale due'),
-          //     ),
-          //     const PopupMenuItem(
-          //       value: Scaffale.Tre,
-          //       child: Text('Scaffale tre'),
-          //     ),
-          //   ],
-          // ),
         ],
       ),
       drawer: const MainMenu(),
       body: Column(
         children: <Widget>[
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
                 padding: const EdgeInsets.all(5.0),
@@ -146,7 +113,7 @@ class _BooksScreenState extends State<BooksScreen> {
                       horizontal: 10,
                     ),
                     child: DropdownButton<Scaffale>(
-                      value: selectedValue,
+                      value: selectedScaffale,
                       items: Scaffale.values.map((Scaffale item) {
                         return DropdownMenuItem<Scaffale>(
                           value: item,
@@ -157,10 +124,56 @@ class _BooksScreenState extends State<BooksScreen> {
                       }).toList(),
                       onChanged: (Scaffale? value) {
                         setState(() {
-                          selectedValue = value!;
+                          selectedScaffale = value!;
                           _filterItems = _bookService.perScaffale(
                             _items,
-                            selectedValue.index,
+                            selectedScaffale.index,
+                          );
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                      color: Colors.black38,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(2),
+                    boxShadow: const <BoxShadow>[
+                      BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.57),
+                        blurRadius: 5,
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 2,
+                      horizontal: 10,
+                    ),
+                    child: DropdownButton<OrdinamentoLibro>(
+                      value: selectedOrdinamento,
+                      items:
+                          OrdinamentoLibro.values.map((OrdinamentoLibro item) {
+                        return DropdownMenuItem<OrdinamentoLibro>(
+                          value: item,
+                          child: Text(
+                            item.desc,
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (OrdinamentoLibro? value) {
+                        setState(() {
+                          selectedOrdinamento = value!;
+                          _filterItems = _bookService.ordinamento(
+                            _items,
+                            selectedOrdinamento.name,
                           );
                         });
                       },

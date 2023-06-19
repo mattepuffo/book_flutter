@@ -17,10 +17,17 @@ class Utils {
     return false;
   }
 
-  Future<void> checkConnetcion() async {
+  bool isDesktop() {
+    if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<ConnectivityResult> checkConnetcion() async {
     final Connectivity connectivity = Connectivity();
     ConnectivityResult result = await connectivity.checkConnectivity();
     ConnectivityResult connectionStatus = result;
-    print(connectionStatus);
+    return connectionStatus;
   }
 }

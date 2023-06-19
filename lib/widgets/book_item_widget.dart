@@ -14,6 +14,7 @@ class BookItem extends StatelessWidget {
   final _bookService = BookService();
   final Book book;
   final Function() onDel;
+  final double textPadding = 5;
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +112,43 @@ class BookItem extends StatelessWidget {
               (book.title ?? ""),
               style: Theme.of(context).textTheme.bodyLarge,
             ),
-            subtitle: Text(book.author ?? ""),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: textPadding,
+                    bottom: textPadding,
+                  ),
+                  child: Text(book.author ?? ""),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: textPadding,
+                  ),
+                  child: Text(book.editor ?? ""),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: textPadding,
+                  ),
+                  child: Text('Scaffale ${book.scaffale}'),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: textPadding,
+                  ),
+                  child: Text(book.isbn ?? ""),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: textPadding,
+                    bottom: textPadding,
+                  ),
+                  child: Text(book.note ?? ""),
+                ),
+              ],
+            ),
             trailing: Wrap(
               spacing: 10,
               children: <Widget>[

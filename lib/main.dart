@@ -6,20 +6,24 @@ import './screens/authors_screen.dart';
 import './screens/books_screen.dart';
 import './screens/form_book_screen.dart';
 import './screens/editors_screen.dart';
+import 'utils/utils.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await windowManager.ensureInitialized();
+  final utils = Utils();
+  if (utils.isDesktop()) {
+    WidgetsFlutterBinding.ensureInitialized();
+    await windowManager.ensureInitialized();
 
-  WindowOptions windowOptions = const WindowOptions(
-    center: true,
-    title: 'MP Book',
-  );
+    WindowOptions windowOptions = const WindowOptions(
+      center: true,
+      title: 'MP Book',
+    );
 
-  windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.show();
-    await windowManager.focus();
-  });
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.show();
+      await windowManager.focus();
+    });
+  }
 
   runApp(const MyApp());
 }

@@ -31,6 +31,48 @@ class BookService {
         : items;
   }
 
+  Future<List<Book>> ordinamento(
+      Future<List<Book>> items, String campo) async {
+    List<Book> tmpList = await items;
+
+    switch (campo) {
+      case 'prezzoAsc':
+        tmpList.sort((a, b) => a.price!.compareTo(b.price!));
+        break;
+      case 'prezzoDesc':
+        tmpList.sort((a, b) => b.price!.compareTo(a.price!));
+        break;
+      case 'titoloAsc':
+        tmpList.sort((a, b) => a.title!.compareTo(b.title!));
+        break;
+      case 'titoloDesc':
+        tmpList.sort((a, b) => b.title!.compareTo(a.title!));
+        break;
+      case 'autoreAsc':
+        tmpList.sort((a, b) => a.author!.compareTo(b.author!));
+        break;
+      case 'autoreDesc':
+        tmpList.sort((a, b) => b.author!.compareTo(a.author!));
+        break;
+      case 'editoreAsc':
+        tmpList.sort((a, b) => a.editor!.compareTo(b.editor!));
+        break;
+      case 'editoreDesc':
+        tmpList.sort((a, b) => b.editor!.compareTo(a.editor!));
+        break;
+      case 'scaffaleAsc':
+        tmpList.sort((a, b) => a.scaffale!.compareTo(b.scaffale!));
+        break;
+      case 'scaffaleDesc':
+        tmpList.sort((a, b) => b.scaffale!.compareTo(a.scaffale!));
+        break;
+      default:
+        break;
+    }
+
+    return Future.value(List.from(tmpList));
+  }
+
   Future<String> salva(Book item) async {
     final url = Uri.parse('${Utils.basePathBook}add2.php');
 
