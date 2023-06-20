@@ -20,4 +20,19 @@ class AuthorService {
         : Future.value(List.from(tmpList.where(
             (el) => el.name!.toLowerCase().contains(testo.toLowerCase()))));
   }
+
+  Future<String> salva(Author item) async {
+    final url = Uri.parse('${Utils.basePathAuthor}add.php');
+
+    final response = await http.post(
+      url,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: json.encode(item),
+    );
+
+    return response.body;
+  }
 }

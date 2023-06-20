@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/editor.dart';
+import '../screens/form_editor_screen.dart';
 import 'list_divider_widget.dart';
 
 class EditorItem extends StatelessWidget {
@@ -24,10 +25,10 @@ class EditorItem extends StatelessWidget {
                 icon: const Icon(Icons.remove_red_eye),
                 color: Colors.purple,
                 onPressed: () => {
-                  // Navigator.of(context).pushNamed(
-                  //   BookScreen.routeName,
-                  //   arguments: item.id,
-                  // )
+                  Navigator.of(context).pushNamed(
+                    FormEditorScreen.routeName,
+                    arguments: item,
+                  )
                 },
               ),
             ],

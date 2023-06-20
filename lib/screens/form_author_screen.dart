@@ -46,37 +46,39 @@ class _FormAuthorState extends State<FormAuthorScreen> {
         name: _nome,
       );
 
-      // Future<String> resp = _authorService.salva(author);
-      // String rr = await resp;
-      // final httpResponse = HttpResponse.fromJson(json.decode(rr));
-      //
-      // if (httpResponse.res == 'ko') {
-      //   if (!context.mounted) return;
-      //
-      //   ScaffoldMessenger.of(context).showSnackBar(
-      //     SnackBar(
-      //       content: Text(
-      //         httpResponse.message,
-      //       ),
-      //     ),
-      //   );
-      // } else {
-      //   if (!context.mounted) return;
-      //
-      //   Navigator.pushReplacement(
-      //     context,
-      //     PageTransition(
-      //       type: PageTransitionType.rightToLeft,
-      //       child: const AuthorsScreen(),
-      //     ),
-      //   );
-      // }
+      Future<String> resp = _authorService.salva(author);
+      String rr = await resp;
+      final httpResponse = HttpResponse.fromJson(json.decode(rr));
+
+      if (httpResponse.res == 'ko') {
+        if (!context.mounted) return;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              httpResponse.message,
+            ),
+          ),
+        );
+      } else {
+        if (!context.mounted) return;
+
+        Navigator.pushReplacement(
+          context,
+          PageTransition(
+            type: PageTransitionType.rightToLeft,
+            child: const AuthorsScreen(),
+          ),
+        );
+      }
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     final objArgs = ModalRoute.of(context)?.settings.arguments;
     late Author author;
+
     if (objArgs != null) {
       author = objArgs as Author;
       _id = author.id!;

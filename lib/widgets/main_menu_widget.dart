@@ -4,7 +4,9 @@ import 'package:page_transition/page_transition.dart';
 import '../screens/authors_screen.dart';
 import '../screens/books_screen.dart';
 import '../screens/editors_screen.dart';
+import '../screens/form_author_screen.dart';
 import '../screens/form_book_screen.dart';
+import '../screens/form_editor_screen.dart';
 
 class MainMenu extends StatelessWidget {
   const MainMenu({super.key});
@@ -89,6 +91,22 @@ class MainMenu extends StatelessWidget {
             Icons.add,
             () {
               Navigator.of(context).pushNamed(FormBookScreen.routeName);
+            },
+          ),
+          const Divider(),
+          buildListTile(
+            'Aggiungi autore',
+            Icons.add,
+            () {
+              Navigator.of(context).pushNamed(FormAuthorScreen.routeName);
+            },
+          ),
+          const Divider(),
+          buildListTile(
+            'Aggiungi editore',
+            Icons.add,
+            () {
+              Navigator.of(context).pushNamed(FormEditorScreen.routeName);
             },
           ),
         ],

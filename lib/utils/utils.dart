@@ -1,5 +1,5 @@
 import 'dart:io' show Platform;
-
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 // https://www.flutterbeads.com/flutter-internet-connection-checker/
@@ -11,15 +11,23 @@ class Utils {
   static String basePathEditor = '${basePath}editor/';
 
   bool isMobile() {
-    if (Platform.isAndroid || Platform.isIOS || Platform.isFuchsia) {
-      return true;
+    if (kIsWeb) {
+      return false;
+    } else {
+      if (Platform.isAndroid || Platform.isIOS || Platform.isFuchsia) {
+        return true;
+      }
     }
     return false;
   }
 
   bool isDesktop() {
-    if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
-      return true;
+    if (kIsWeb) {
+      return false;
+    } else {
+      if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+        return true;
+      }
     }
     return false;
   }

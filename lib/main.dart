@@ -59,8 +59,8 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        // '/': (ctx) => const BooksScreen(),
-        '/': (ctx) => const AuthorsScreen(),
+        '/': (ctx) => const BooksScreen(),
+        // '/': (ctx) => const AuthorsScreen(),
         AuthorsScreen.routeName: (ctx) => const AuthorsScreen(),
         EditorsScreen.routeName: (ctx) => const EditorsScreen(),
         FormBookScreen.routeName: (ctx) => const FormBookScreen(),

@@ -25,11 +25,10 @@ class AuthorItem extends StatelessWidget {
                 icon: const Icon(Icons.remove_red_eye),
                 color: Colors.purple,
                 onPressed: () => {
-                  print(item.id)
-                  // Navigator.of(context).pushNamed(
-                  //   FormAuthorScreen.routeName,
-                  //   arguments: item.id,
-                  // )
+                  Navigator.of(context).pushNamed(
+                    FormAuthorScreen.routeName,
+                    arguments: item,
+                  )
                 },
               ),
             ],

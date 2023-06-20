@@ -47,41 +47,43 @@ class _FormEditorState extends State<FormEditorScreen> {
         name: _nome,
       );
 
-      // Future<String> resp = _authorService.salva(author);
-      // String rr = await resp;
-      // final httpResponse = HttpResponse.fromJson(json.decode(rr));
-      //
-      // if (httpResponse.res == 'ko') {
-      //   if (!context.mounted) return;
-      //
-      //   ScaffoldMessenger.of(context).showSnackBar(
-      //     SnackBar(
-      //       content: Text(
-      //         httpResponse.message,
-      //       ),
-      //     ),
-      //   );
-      // } else {
-      //   if (!context.mounted) return;
-      //
-      //   Navigator.pushReplacement(
-      //     context,
-      //     PageTransition(
-      //       type: PageTransitionType.rightToLeft,
-      //       child: const EditorsScreen(),
-      //     ),
-      //   );
-      // }
+      Future<String> resp = _editorService.salva(editor);
+      String rr = await resp;
+      final httpResponse = HttpResponse.fromJson(json.decode(rr));
+
+      if (httpResponse.res == 'ko') {
+        if (!context.mounted) return;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              httpResponse.message,
+            ),
+          ),
+        );
+      } else {
+        if (!context.mounted) return;
+
+        Navigator.pushReplacement(
+          context,
+          PageTransition(
+            type: PageTransitionType.rightToLeft,
+            child: const EditorsScreen(),
+          ),
+        );
+      }
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     final objArgs = ModalRoute.of(context)?.settings.arguments;
-    late Editor author;
+    late Editor editor;
+
     if (objArgs != null) {
-      author = objArgs as Editor;
-      _id = author.id!;
-      _nome = author.name!;
+      editor = objArgs as Editor;
+      _id = editor.id!;
+      _nome = editor.name!;
     }
 
     return Scaffold(
