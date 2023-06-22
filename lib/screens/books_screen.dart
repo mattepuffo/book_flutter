@@ -85,176 +85,175 @@ class _BooksScreenState extends State<BooksScreen> {
         ],
       ),
       drawer: const MainMenu(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: Colors.black38,
-                        width: 1,
-                      ),
-                      borderRadius: BorderRadius.circular(2),
-                      boxShadow: const <BoxShadow>[
-                        BoxShadow(
-                          color: Color.fromRGBO(0, 0, 0, 0.57),
-                          blurRadius: 5,
-                        ),
-                      ],
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                      color: Colors.black38,
+                      width: 1,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 2,
-                        horizontal: 10,
+                    borderRadius: BorderRadius.circular(2),
+                    boxShadow: const <BoxShadow>[
+                      BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.57),
+                        blurRadius: 5,
                       ),
-                      child: DropdownButton<Scaffale>(
-                        value: selectedScaffale,
-                        items: Scaffale.values.map((Scaffale item) {
-                          return DropdownMenuItem<Scaffale>(
-                            value: item,
-                            child: Text(
-                              item.name,
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (Scaffale? value) {
-                          setState(() {
-                            selectedScaffale = value!;
-                            _filterItems = _bookService.perScaffale(
-                              _items,
-                              selectedScaffale.index,
-                            );
-                          });
-                        },
-                      ),
-                    ),
+                    ],
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: Colors.black38,
-                        width: 1,
-                      ),
-                      borderRadius: BorderRadius.circular(2),
-                      boxShadow: const <BoxShadow>[
-                        BoxShadow(
-                          color: Color.fromRGBO(0, 0, 0, 0.57),
-                          blurRadius: 5,
-                        ),
-                      ],
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 2,
+                      horizontal: 10,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 2,
-                        horizontal: 10,
-                      ),
-                      child: DropdownButton<OrdinamentoLibro>(
-                        value: selectedOrdinamento,
-                        items: OrdinamentoLibro.values
-                            .map((OrdinamentoLibro item) {
-                          return DropdownMenuItem<OrdinamentoLibro>(
-                            value: item,
-                            child: Text(
-                              item.desc,
-                            ),
+                    child: DropdownButton<Scaffale>(
+                      value: selectedScaffale,
+                      items: Scaffale.values.map((Scaffale item) {
+                        return DropdownMenuItem<Scaffale>(
+                          value: item,
+                          child: Text(
+                            item.name,
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (Scaffale? value) {
+                        setState(() {
+                          selectedScaffale = value!;
+                          _filterItems = _bookService.perScaffale(
+                            _items,
+                            selectedScaffale.index,
                           );
-                        }).toList(),
-                        onChanged: (OrdinamentoLibro? value) {
-                          setState(() {
-                            selectedOrdinamento = value!;
-                            _filterItems = _bookService.ordinamento(
-                              _items,
-                              selectedOrdinamento.name,
-                            );
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                onChanged: (value) {
-                  setState(() {
-                    _filterItems = _bookService.cerca(_items, value);
-                  });
-                },
-                controller: _searchController,
-                decoration: const InputDecoration(
-                  labelText: "Cerca...",
-                  hintText: "Cerca...",
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(5),
+                        });
+                      },
                     ),
                   ),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                      color: Colors.black38,
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(2),
+                    boxShadow: const <BoxShadow>[
+                      BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.57),
+                        blurRadius: 5,
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 2,
+                      horizontal: 10,
+                    ),
+                    child: DropdownButton<OrdinamentoLibro>(
+                      value: selectedOrdinamento,
+                      items: OrdinamentoLibro.values
+                          .map((OrdinamentoLibro item) {
+                        return DropdownMenuItem<OrdinamentoLibro>(
+                          value: item,
+                          child: Text(
+                            item.desc,
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (OrdinamentoLibro? value) {
+                        setState(() {
+                          selectedOrdinamento = value!;
+                          _filterItems = _bookService.ordinamento(
+                            _items,
+                            selectedOrdinamento.name,
+                          );
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              onChanged: (value) {
+                setState(() {
+                  _filterItems = _bookService.cerca(_items, value);
+                });
+              },
+              controller: _searchController,
+              decoration: const InputDecoration(
+                labelText: "Cerca...",
+                hintText: "Cerca...",
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5),
+                  ),
+                ),
+              ),
             ),
-            const Divider(),
-            Expanded(
-              child: RefreshIndicator(
-                displacement: 150,
-                backgroundColor: Colors.black38,
-                strokeWidth: 3,
-                triggerMode: RefreshIndicatorTriggerMode.onEdge,
-                onRefresh: () async {
-                  _searchController.text = '';
-                  await Future.delayed(const Duration(milliseconds: 1500));
-                },
-                child: FutureBuilder<List<Book>>(
-                  future: _filterItems,
-                  builder: (context, initialData) {
-                    if (initialData.connectionState ==
-                        ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
+          ),
+          const Divider(),
+          Expanded(
+            child: RefreshIndicator(
+              displacement: 150,
+              backgroundColor: Colors.black38,
+              strokeWidth: 3,
+              triggerMode: RefreshIndicatorTriggerMode.onEdge,
+              onRefresh: () async {
+                _searchController.text = '';
+                await Future.delayed(const Duration(milliseconds: 1500));
+              },
+              child: FutureBuilder<List<Book>>(
+                future: _filterItems,
+                builder: (context, initialData) {
+                  if (initialData.connectionState ==
+                      ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-                    if (initialData.hasError) {
-                      return Center(
-                        child: Text(
-                          initialData.error.toString(),
-                        ),
-                      );
-                    }
-
-                    if (initialData.data!.isEmpty) {
-                      return const Center(
-                        child: Text('Nessun elemento trovato!'),
-                      );
-                    }
-
-                    return ListView.builder(
-                      padding: const EdgeInsets.all(10.0),
-                      itemCount: initialData.data!.length,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      itemBuilder: (ctx, i) => BookItem(
-                        book: initialData.data![i],
-                        onDel: _refreshBooks,
+                  if (initialData.hasError) {
+                    return Center(
+                      child: Text(
+                        initialData.error.toString(),
                       ),
                     );
-                  },
-                ),
+                  }
+
+                  if (initialData.data!.isEmpty) {
+                    return const Center(
+                      child: Text('Nessun elemento trovato!'),
+                    );
+                  }
+
+                  return ListView.builder(
+                    padding: const EdgeInsets.all(10.0),
+                    itemCount: initialData.data!.length,
+                    // physics: const AlwaysScrollableScrollPhysics(),
+                    itemBuilder: (ctx, i) => BookItem(
+                      book: initialData.data![i],
+                      onDel: _refreshBooks,
+                    ),
+                  );
+                },
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
