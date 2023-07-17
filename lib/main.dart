@@ -18,7 +18,7 @@ void main() async {
 
     WindowOptions windowOptions = const WindowOptions(
       center: true,
-      title: 'MP Book',
+      // title: 'MP Book',
     );
 
     windowManager.waitUntilReadyToShow(windowOptions, () async {
