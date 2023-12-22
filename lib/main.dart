@@ -41,13 +41,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'MP Book',
       theme: ThemeData(
-        useMaterial3: true,
         fontFamily: 'Raleway',
-        // primarySwatch: Colors.amber,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.amber,
-          brightness: Brightness.light,
-        ),
+        primarySwatch: Colors.amber,
         textTheme: const TextTheme(
           headlineLarge: TextStyle(fontWeight: FontWeight.bold),
           bodyLarge: TextStyle(
