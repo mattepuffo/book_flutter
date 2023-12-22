@@ -1,4 +1,3 @@
-import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -41,10 +40,16 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'MP Book',
       theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.amber,
+        ),
+        useMaterial3: true,
         fontFamily: 'Raleway',
         primarySwatch: Colors.amber,
         textTheme: const TextTheme(
-          headlineLarge: TextStyle(fontWeight: FontWeight.bold),
+          headlineLarge: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
           bodyLarge: TextStyle(
             fontSize: 14.0,
             fontFamily: 'Hind',
@@ -58,6 +63,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
+      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       initialRoute: '/',
       routes: {
         '/': (ctx) => const BooksScreen(),
@@ -67,11 +73,6 @@ class MyApp extends StatelessWidget {
         FormBookScreen.routeName: (ctx) => const FormBookScreen(),
         FormAuthorScreen.routeName: (ctx) => const FormAuthorScreen(),
         FormEditorScreen.routeName: (ctx) => const FormEditorScreen(),
-      },
-      onUnknownRoute: (settings) {
-        return MaterialPageRoute(
-          builder: (ctx) => const BooksScreen(),
-        );
       },
     );
   }

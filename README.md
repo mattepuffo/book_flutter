@@ -1,6 +1,6 @@
 # book_flutter
 
-A new Flutter project.
+MP Book
 
 ## Getting Started
 

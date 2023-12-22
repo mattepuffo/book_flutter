@@ -88,6 +88,7 @@ class _FormAuthorState extends State<FormAuthorScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Aggiungi / modifica Autore"),
       ),
       body: SingleChildScrollView(

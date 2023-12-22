@@ -117,6 +117,7 @@ class _FormBookState extends State<FormBookScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Aggiungi / modifica Libro"),
       ),
       body: SingleChildScrollView(

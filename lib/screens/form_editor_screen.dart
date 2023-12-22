@@ -89,6 +89,7 @@ class _FormEditorState extends State<FormEditorScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Aggiungi / modifica Editore"),
       ),
       body: SingleChildScrollView(
