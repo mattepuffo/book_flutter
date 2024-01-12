@@ -18,6 +18,15 @@ class EditorItem extends StatelessWidget {
             (item.name ?? ""),
             style: Theme.of(context).textTheme.bodyLarge,
           ),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(
+              top: 10,
+            ),
+            child: Text(
+              'No. libri: ${item.cnt}',
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ),
           trailing: Wrap(
             spacing: 10,
             children: <Widget>[

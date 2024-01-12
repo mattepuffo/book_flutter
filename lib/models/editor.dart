@@ -16,19 +16,22 @@ class Editors with ChangeNotifier {
 class Editor with ChangeNotifier {
   final int? id;
   final String? name;
+  final int? cnt;
 
   Editor({
     this.id,
     this.name,
+    this.cnt,
   });
 
   factory Editor.fromJson(Map<String, dynamic> json) => Editor(
         id: json["id"],
         name: json["name"],
+        cnt: json["cnt"],
       );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-  };
+        "id": id,
+        "name": name,
+      };
 }

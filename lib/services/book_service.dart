@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 
 import '../models/book.dart';
 import '../utils/utils.dart';
