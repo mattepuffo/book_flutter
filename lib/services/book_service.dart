@@ -17,9 +17,16 @@ class BookService {
     List<Book> tmpList = await items;
     return testo.isEmpty
         ? items
-        : Future.value(List.from(tmpList.where((el) =>
-            el.title!.toLowerCase().contains(testo.toLowerCase()) ||
-            el.author!.toLowerCase().contains(testo.toLowerCase()))));
+        : Future.value(
+            List.from(
+              tmpList.where(
+                (el) =>
+                    el.title!.toLowerCase().contains(testo.toLowerCase()) ||
+                    el.author!.toLowerCase().contains(testo.toLowerCase()) ||
+                    el.note!.toLowerCase().contains(testo.toLowerCase()),
+              ),
+            ),
+          );
   }
 
   Future<List<Book>> perScaffale(Future<List<Book>> items, int scaffale) async {
@@ -30,8 +37,7 @@ class BookService {
         : items;
   }
 
-  Future<List<Book>> ordinamento(
-      Future<List<Book>> items, String campo) async {
+  Future<List<Book>> ordinamento(Future<List<Book>> items, String campo) async {
     List<Book> tmpList = await items;
 
     switch (campo) {

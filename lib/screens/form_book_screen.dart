@@ -149,10 +149,15 @@ class _FormBookState extends State<FormBookScreen> {
                   height: spazio,
                 ),
                 DropdownSearch<Author>(
+                  clearButtonProps: const ClearButtonProps(isVisible: true),
                   selectedItem: _objAutore,
                   asyncItems: (String filter) => _authorService.getAll(),
                   itemAsString: (Author u) => u.name!,
+                  popupProps: const PopupProps.menu(
+                    showSearchBox: true,
+                  ),
                   dropdownDecoratorProps: const DropDownDecoratorProps(
+                    textAlignVertical: TextAlignVertical.center,
                     dropdownSearchDecoration: InputDecoration(
                       labelText: "Autore *",
                       hintText: "Autore *",
@@ -175,6 +180,9 @@ class _FormBookState extends State<FormBookScreen> {
                   selectedItem: _objEditore,
                   asyncItems: (String filter) => _editorService.getAll(),
                   itemAsString: (Editor u) => u.name!,
+                  popupProps: const PopupProps.menu(
+                    showSearchBox: true,
+                  ),
                   dropdownDecoratorProps: const DropDownDecoratorProps(
                     dropdownSearchDecoration: InputDecoration(
                       labelText: "Editore *",
