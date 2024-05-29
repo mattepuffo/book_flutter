@@ -77,3 +77,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// https://iiro.dev/implementing-adaptive-master-detail-layouts/
