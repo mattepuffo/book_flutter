@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:book_flutter/models/book.dart';
 import 'package:flutter/material.dart';
 
-import '../models/http_response.dart';
-import '../screens/form_book_screen.dart';
-import '../services/book_service.dart';
-import 'list_divider_widget.dart';
+import '../../models/http_response.dart';
+import '../../screens/form_book_screen.dart';
+import '../../services/book_service.dart';
+import '../list_divider_widget.dart';
 
 class BookItem extends StatelessWidget {
   BookItem({super.key, required this.book, required this.onDel});
@@ -22,7 +22,7 @@ class BookItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void del(Book b) async {
-      Future<String> resp = _bookService.del(book);
+      Future<String> resp = _bookService.del(b);
       String rr = await resp;
       final httpResponse = HttpResponse.fromJson(json.decode(rr));
 
