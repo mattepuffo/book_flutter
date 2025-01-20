@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../models/author.dart';
 import '../models/editor.dart';
 import '../models/http_response.dart';
 import '../services/editor_service.dart';

@@ -78,15 +78,6 @@ class MainMenu extends StatelessWidget {
           ),
           const Divider(),
           buildListTile(
-            'Editori',
-            Icons.person,
-            () {
-              Navigator.of(context)
-                  .pushReplacementNamed(AuthorsScreen.routeName);
-            },
-          ),
-          const Divider(),
-          buildListTile(
             'Aggiungi libro',
             Icons.add,
             () {

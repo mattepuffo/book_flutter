@@ -1,4 +1,5 @@
 flutter build linux --release
+flutter build windows --release
 flutter build web --release --base-href "/book/"
 
 flutter build apk
