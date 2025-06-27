@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/book.dart';
 import '../../models/http_response.dart';
+import '../../screens/form_book_screen.dart';
 import '../../services/book_service.dart';
 import '../main_menu_widget.dart';
 
@@ -300,22 +301,36 @@ class _BooksTableState extends State<BooksTable> {
                                     Text(b.note ?? ""),
                                   ),
                                   DataCell(
-                                    IconButton(
-                                      icon: const Icon(Icons.delete),
-                                      color: Theme.of(context).colorScheme.error,
-                                      onPressed: () => {
-                                        showDialog(
-                                          context: context,
-                                          builder: (ctx) => _confDialog(),
-                                        ).then(
-                                          (value) => {
-                                            if (value)
-                                              {
-                                                _del(b),
-                                              },
+                                    Row(
+                                      children: [
+                                        IconButton(
+                                          icon: const Icon(Icons.remove_red_eye),
+                                          color: Colors.purple,
+                                          onPressed: () => {
+                                            Navigator.of(context).pushNamed(
+                                              FormBookScreen.routeName,
+                                              arguments: b,
+                                            )
                                           },
                                         ),
-                                      },
+                                        IconButton(
+                                          icon: const Icon(Icons.delete),
+                                          color: Theme.of(context).colorScheme.error,
+                                          onPressed: () => {
+                                            showDialog(
+                                              context: context,
+                                              builder: (ctx) => _confDialog(),
+                                            ).then(
+                                              (value) => {
+                                                if (value)
+                                                  {
+                                                    _del(b),
+                                                  },
+                                              },
+                                            ),
+                                          },
+                                        ),
+                                      ],
                                     ),
                                   )
                                 ],
