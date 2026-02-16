@@ -149,19 +149,23 @@ class _FormBookState extends State<FormBookScreen> {
                   height: spazio,
                 ),
                 DropdownSearch<Author>(
-                  clearButtonProps: const ClearButtonProps(isVisible: true),
+                  items: (filter, infiniteScrollProps) =>
+                      _authorService.getAll(),
                   selectedItem: _objAutore,
-                  asyncItems: (String filter) => _authorService.getAll(),
                   itemAsString: (Author u) => u.name!,
-                  popupProps: const PopupProps.menu(
-                    showSearchBox: true,
-                  ),
-                  dropdownDecoratorProps: const DropDownDecoratorProps(
+                  compareFn: (Author? a, Author? b) => a?.id == b?.id,
+                  decoratorProps: const DropDownDecoratorProps(
                     textAlignVertical: TextAlignVertical.center,
-                    dropdownSearchDecoration: InputDecoration(
+                    decoration: InputDecoration(
                       labelText: "Autore *",
                       hintText: "Autore *",
                     ),
+                  ),
+                  suffixProps: const DropdownSuffixProps(
+                    clearButtonProps: ClearButtonProps(isVisible: true),
+                  ),
+                  popupProps: const PopupProps.menu(
+                    showSearchBox: true,
                   ),
                   validator: (value) {
                     if (value == null || value.id == 0) {
@@ -177,17 +181,23 @@ class _FormBookState extends State<FormBookScreen> {
                   height: spazio,
                 ),
                 DropdownSearch<Editor>(
+                  items: (filter, infiniteScrollProps) =>
+                      _editorService.getAll(),
                   selectedItem: _objEditore,
-                  asyncItems: (String filter) => _editorService.getAll(),
                   itemAsString: (Editor u) => u.name!,
+                  compareFn: (Editor? a, Editor? b) => a?.id == b?.id,
+                  decoratorProps: const DropDownDecoratorProps(
+                    textAlignVertical: TextAlignVertical.center,
+                    decoration: InputDecoration(
+                      labelText: "Editore *",
+                      hintText: "Editore *",
+                    ),
+                  ),
+                  suffixProps: const DropdownSuffixProps(
+                    clearButtonProps: ClearButtonProps(isVisible: true),
+                  ),
                   popupProps: const PopupProps.menu(
                     showSearchBox: true,
-                  ),
-                  dropdownDecoratorProps: const DropDownDecoratorProps(
-                    dropdownSearchDecoration: InputDecoration(
-                      labelText: "Editore *",
-                      hintText: "Editore",
-                    ),
                   ),
                   validator: (value) {
                     if (value == null || value.id == 0) {

@@ -36,7 +36,7 @@ class Utils {
 
   Future<ConnectivityResult> checkConnetcion() async {
     final Connectivity connectivity = Connectivity();
-    ConnectivityResult result = await connectivity.checkConnectivity();
+    ConnectivityResult result = (await connectivity.checkConnectivity()) as ConnectivityResult;
     ConnectivityResult connectionStatus = result;
     return connectionStatus;
   }
