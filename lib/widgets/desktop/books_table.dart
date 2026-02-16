@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:book_flutter/screens/authors_bar_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/book.dart';
@@ -136,6 +137,26 @@ class _BooksTableState extends State<BooksTable> {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    final List<Book> books = await _items;
+
+                    if (context.mounted) {
+                      Navigator.of(context).pushNamed(
+                        AuthorsBarScreen.routeName,
+                        arguments: books,
+                      );
+                    }
+                  },
+                  child: const Text('Grafico Autori'),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
             child: TextField(
               onChanged: (value) {
                 setState(() {
@@ -184,9 +205,11 @@ class _BooksTableState extends State<BooksTable> {
                               setState(() {
                                 _currentSortColumn = columnIndex;
                                 if (_isSortAsc) {
-                                  data.sort((a, b) => b.title!.compareTo(a.title!));
+                                  data.sort(
+                                      (a, b) => b.title!.compareTo(a.title!));
                                 } else {
-                                  data.sort((a, b) => a.title!.compareTo(b.title!));
+                                  data.sort(
+                                      (a, b) => a.title!.compareTo(b.title!));
                                 }
                                 _isSortAsc = !_isSortAsc;
                               });
@@ -230,9 +253,11 @@ class _BooksTableState extends State<BooksTable> {
                               setState(() {
                                 _currentSortColumn = columnIndex;
                                 if (_isSortAsc) {
-                                  data.sort((a, b) => b.price!.compareTo(a.price!));
+                                  data.sort(
+                                      (a, b) => b.price!.compareTo(a.price!));
                                 } else {
-                                  data.sort((a, b) => a.price!.compareTo(b.price!));
+                                  data.sort(
+                                      (a, b) => a.price!.compareTo(b.price!));
                                 }
                                 _isSortAsc = !_isSortAsc;
                               });
@@ -244,11 +269,11 @@ class _BooksTableState extends State<BooksTable> {
                               setState(() {
                                 _currentSortColumn = columnIndex;
                                 if (_isSortAsc) {
-                                  data.sort(
-                                      (a, b) => b.scaffale!.compareTo(a.scaffale!));
+                                  data.sort((a, b) =>
+                                      b.scaffale!.compareTo(a.scaffale!));
                                 } else {
-                                  data.sort(
-                                      (a, b) => a.scaffale!.compareTo(b.scaffale!));
+                                  data.sort((a, b) =>
+                                      a.scaffale!.compareTo(b.scaffale!));
                                 }
                                 _isSortAsc = !_isSortAsc;
                               });
@@ -260,9 +285,11 @@ class _BooksTableState extends State<BooksTable> {
                               setState(() {
                                 _currentSortColumn = columnIndex;
                                 if (_isSortAsc) {
-                                  data.sort((a, b) => b.isbn!.compareTo(a.isbn!));
+                                  data.sort(
+                                      (a, b) => b.isbn!.compareTo(a.isbn!));
                                 } else {
-                                  data.sort((a, b) => a.isbn!.compareTo(b.isbn!));
+                                  data.sort(
+                                      (a, b) => a.isbn!.compareTo(b.isbn!));
                                 }
                                 _isSortAsc = !_isSortAsc;
                               });
@@ -304,7 +331,8 @@ class _BooksTableState extends State<BooksTable> {
                                     Row(
                                       children: [
                                         IconButton(
-                                          icon: const Icon(Icons.remove_red_eye),
+                                          icon:
+                                              const Icon(Icons.remove_red_eye),
                                           color: Colors.purple,
                                           onPressed: () => {
                                             Navigator.of(context).pushNamed(
@@ -315,7 +343,9 @@ class _BooksTableState extends State<BooksTable> {
                                         ),
                                         IconButton(
                                           icon: const Icon(Icons.delete),
-                                          color: Theme.of(context).colorScheme.error,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .error,
                                           onPressed: () => {
                                             showDialog(
                                               context: context,

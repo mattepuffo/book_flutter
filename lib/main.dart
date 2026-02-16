@@ -1,3 +1,4 @@
+import 'package:book_flutter/screens/authors_bar_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -73,7 +74,8 @@ class MyApp extends StatelessWidget {
         FormBookScreen.routeName: (ctx) => const FormBookScreen(),
         FormAuthorScreen.routeName: (ctx) => const FormAuthorScreen(),
         FormEditorScreen.routeName: (ctx) => const FormEditorScreen(),
-      },
+        AuthorsBarScreen.routeName: (ctx) => const AuthorsBarScreen()
+    },
     );
   }
 }

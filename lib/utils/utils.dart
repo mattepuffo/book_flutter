@@ -1,6 +1,8 @@
 import 'dart:io' show Platform;
+import 'dart:ui';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/material.dart';
 
 // https://www.flutterbeads.com/flutter-internet-connection-checker/
 
@@ -38,4 +40,14 @@ class Utils {
     ConnectivityResult connectionStatus = result;
     return connectionStatus;
   }
+
+  List<Color> barColors = [
+    Colors.blueAccent,
+    Colors.redAccent,
+    Colors.greenAccent,
+    Colors.orangeAccent,
+    Colors.purpleAccent,
+    Colors.tealAccent,
+    Colors.pinkAccent,
+  ];
 }

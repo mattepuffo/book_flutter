@@ -10,10 +10,6 @@ class Books with ChangeNotifier {
   factory Books.fromJson(Map<String, dynamic> json) => Books(
         books: List<Book>.from(json["books"].map((x) => Book.fromJson(x))),
       );
-
-// Map<String, dynamic> toJson() => {
-//       "books": List<dynamic>.from(books.map((x) => x.toJson())),
-//     };
 }
 
 class Book with ChangeNotifier {
@@ -69,4 +65,13 @@ class Book with ChangeNotifier {
         "note": note,
         "scaffale": scaffale,
       };
+
+  Map<String, int> getAuthorCounts(List<Book> books) {
+    Map<String, int> counts = {};
+    for (var book in books) {
+      String authorName = book.author ?? "Sconosciuto";
+      counts[authorName] = (counts[authorName] ?? 0) + 1;
+    }
+    return counts;
+  }
 }
