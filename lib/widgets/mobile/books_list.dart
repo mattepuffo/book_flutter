@@ -1,6 +1,8 @@
+import 'package:book_flutter/screens/editors_bar_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/book.dart';
+import '../../screens/authors_bar_screen.dart';
 import '../../services/book_service.dart';
 import '../../utils/ordinamenti.dart';
 import '../../utils/scaffale.dart';
@@ -87,6 +89,39 @@ class _BooksListState extends State<BooksList> {
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    final List<Book> books = await _items;
+
+                    if (context.mounted) {
+                      Navigator.of(context).pushNamed(
+                        AuthorsBarScreen.routeName,
+                        arguments: books,
+                      );
+                    }
+                  },
+                  child: const Text('Grafico Autori'),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    final List<Book> books = await _items;
+
+                    if (context.mounted) {
+                      Navigator.of(context).pushNamed(
+                        EditorsBarScreen.routeName,
+                        arguments: books,
+                      );
+                    }
+                  },
+                  child: const Text('Grafico Editori'),
+                ),
+              ],
+            ),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

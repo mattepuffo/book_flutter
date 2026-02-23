@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/book.dart';
 import '../../models/http_response.dart';
+import '../../screens/editors_bar_screen.dart';
 import '../../screens/form_book_screen.dart';
 import '../../services/book_service.dart';
 import '../main_menu_widget.dart';
@@ -138,6 +139,7 @@ class _BooksTableState extends State<BooksTable> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
+              spacing: 5.0,
               children: [
                 ElevatedButton(
                   onPressed: () async {
@@ -151,6 +153,19 @@ class _BooksTableState extends State<BooksTable> {
                     }
                   },
                   child: const Text('Grafico Autori'),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    final List<Book> books = await _items;
+
+                    if (context.mounted) {
+                      Navigator.of(context).pushNamed(
+                        EditorsBarScreen.routeName,
+                        arguments: books,
+                      );
+                    }
+                  },
+                  child: const Text('Grafico Editori'),
                 ),
               ],
             ),
